@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
+		<attributes>
+			<attribute name="module" value="true"/>
+			<attribute name="limit-modules" value="java.se,jdk.accessibility,jdk.dynalink,jdk.httpserver,jdk.incubator.foreign,jdk.incubator.vector,jdk.jartool,jdk.javadoc,jdk.jconsole,jdk.jshell,jdk.jsobject,jdk.management.jfr,jdk.net,jdk.nio.mapmode,jdk.sctp,jdk.security.auth,jdk.security.jgss,jdk.unsupported,jdk.unsupported.desktop,jdk.xml.dom,jdk.charsets,jdk.hotspot.agent,jdk.jstatd,jdk.jcmd,jdk.crypto.cryptoki,jdk.random,jdk.naming.rmi,jdk.zipfs,jdk.crypto.mscapi,jdk.editpad,java.smartcardio,jdk.internal.vm.compiler,jdk.internal.vm.compiler.management,jdk.jpackage,jdk.naming.dns,jdk.localedata"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/webapp/imagens"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/catalina.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javaee-api-8.0.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.mail-1.6.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-api.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-coyote.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-jdbc.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-util.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-util-scan.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/itextpdf-5.5.13.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jasper.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-i18n-pt-BR.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jasper-el.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jaspic-api.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/junit-4.6.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/protobuf-java-3.6.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/catalina-ant.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/catalina-ha.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/catalina-storeconfig.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/catalina-tribes.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ecj-4.6.3.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/el-api.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-dbcp.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-i18n-de.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-i18n-es.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-i18n-fr.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-i18n-ja.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-i18n-ko.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-i18n-ru.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-i18n-zh-CN.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-jni.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-websocket.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/websocket-api.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mysql-connector-java-8.0.27.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomcat-servlet-api-9.0.0.M17.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
