@@ -17,7 +17,7 @@
 				<li><a href="index.html">Home</a></li>
 				<li><a href="#">Sobre</a></li>
 				<li><a href="#">Carros</a></li>
-				<li><a href="main">Clientes</a></li>
+				<li><a href="client">Clientes</a></li>
 				<li><a href="#">Contato</a></li>
 			</ul>
 		</nav>
@@ -104,7 +104,7 @@
 					value="<%out.print(request.getAttribute("status"));%>"></td>
 			</tr>
 		</table>
-		<a href="main" class="Botao4"> Voltar </a>
+		<a href="client" class="Botao4"> Voltar </a>
 		<input type="button" value="Imprimir Ficha" class="Botao8" onclick="validar()">
 		<a href="printer"></a>
 	</form>

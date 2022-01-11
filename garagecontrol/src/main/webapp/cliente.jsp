@@ -20,10 +20,10 @@ ArrayList<JavaBeans> lista = (ArrayList<JavaBeans>) request.getAttribute("client
 		<h2>GARAGE CONTROL</h2>
 		<nav>
 			<ul id="navbar-list">
-				<li><a href="index.html">Home</a></li>
+				
 				<li><a href="#">Sobre</a></li>
 				<li><a href="#">Carros</a></li>
-				<li><a href="main">Clientes</a></li>
+				<li><a href="client">Clientes</a></li>
 				<li><a href="#">Contato</a></li>
 			</ul>
 		</nav>

@@ -18,7 +18,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import model.DAO;
 import model.JavaBeans;
 
-@WebServlet(urlPatterns = { "/Controller", "/main", "/insert", "/select", "/update", "/delete", "/read", "/report",
+@WebServlet(urlPatterns = { "/Controller", "/client", "/insert", "/select", "/update", "/delete", "/read", "/report",
 		"/printer" })
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -27,19 +27,15 @@ public class Controller extends HttpServlet {
 	JavaBeans cliente = new JavaBeans();
 	boolean achou = false;
 
-	public Controller() {
-
-		System.out.println("Novo Servlet");
-
-	}
+	public Controller() {}
+	
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		String action = request.getServletPath();
-		System.out.println(action);
-
-		if (action.equals("/main")) { // direciona para a página principal
+		
+		if (action.equals("/client")) { // direciona para a página principal
 			clientes(request, response);
 
 		} else if (action.equals("/insert")) { // direciona para a página Inserir novo Cliente
@@ -64,7 +60,6 @@ public class Controller extends HttpServlet {
 			imprimirCliente(request, response);
 
 		} else {
-			// System.out.println(action);
 			response.sendRedirect("index.html"); // volta para a página principal
 		}
 
@@ -264,10 +259,15 @@ public class Controller extends HttpServlet {
 			throws ServletException, IOException {
 				
 		Document documento = new Document();
+		DAO dao = new DAO();
 
 		try {
+			int cliCod = Integer.parseInt(request.getParameter("idcli"));
+			for (JavaBeans p : dao.buscarCliente(cliCod)) {
+				
 			response.setContentType("application/pdf");
-			response.addHeader("Content-Disposition", "inline; filename=" + "Clientes.pdf");
+			response.addHeader("Content-Disposition", "attachment; filename=" + "Cliente_" + p.getPES_NOME() + ".pdf");
+			//response.addHeader("Content-Disposition", "attachment; filename=" + "Cliente.pdf");
 			PdfWriter.getInstance(documento, response.getOutputStream());
 
 			documento.open();
@@ -278,32 +278,26 @@ public class Controller extends HttpServlet {
 			documento.add(new Paragraph("--------------------------------------------------------------------------------------------------------------"));
 			documento.add(new Paragraph(" "));
 
-			int cliCod = Integer.parseInt(request.getParameter("idcli"));
-
-			DAO dao = new DAO();
-			
-				for (JavaBeans p : dao.buscarCliente(cliCod)) {
-
-				documento.add(new Paragraph("-ID: " + p.getPES_COD()));
-				documento.add(new Paragraph("-Nome: " + p.getPES_NOME()));
-				documento.add(new Paragraph("-RG: " + p.getPES_RG()));
-				documento.add(new Paragraph("-CPF: " + p.getPES_CPF()));
-				documento.add(new Paragraph("-Data Nascimento: " + p.getPES_DTNASCIMENTO()));
-				documento.add(new Paragraph("-CEP: " + p.getPES_CEP()));
-				documento.add(new Paragraph("-Telefone: " + p.getPES_TEL()));
-				documento.add(new Paragraph("-Rua: " + p.getPES_RUA()));
-				documento.add(new Paragraph("-Número: " + p.getPES_NUM()));
-				documento.add(new Paragraph("-Bairro: " + p.getPES_BAI()));
-				documento.add(new Paragraph("-Cidade: " + p.getPES_CID()));
-				documento.add(new Paragraph("-UF: " + p.getPES_UF()));
-				documento.add(new Paragraph("-Complemento: " + p.getPES_COMP()));
-				documento.add(new Paragraph("-Data Cadastro: " + p.getPES_DTCADASTRO()));
-				documento.add(new Paragraph("-Status: " + p.getPES_STATUS()));
-				documento.add(new Paragraph(" "));
-				documento.add(new Paragraph("Fim do arquivo. "));
-
+			documento.add(new Paragraph("- ID: " + p.getPES_COD()));
+			documento.add(new Paragraph("- Nome: " + p.getPES_NOME()));
+			documento.add(new Paragraph("- RG: " + p.getPES_RG()));
+			documento.add(new Paragraph("- CPF: " + p.getPES_CPF()));
+			documento.add(new Paragraph("- Data Nascimento: " + p.getPES_DTNASCIMENTO()));
+			documento.add(new Paragraph("- CEP: " + p.getPES_CEP()));
+			documento.add(new Paragraph("- Telefone: " + p.getPES_TEL()));
+			documento.add(new Paragraph("- Rua: " + p.getPES_RUA()));
+			documento.add(new Paragraph("- Número: " + p.getPES_NUM()));
+			documento.add(new Paragraph("- Bairro: " + p.getPES_BAI()));
+			documento.add(new Paragraph("- Cidade: " + p.getPES_CID()));
+			documento.add(new Paragraph("- UF: " + p.getPES_UF()));
+			documento.add(new Paragraph("- Complemento: " + p.getPES_COMP()));
+			documento.add(new Paragraph("- Data Cadastro: " + p.getPES_DTCADASTRO()));
+			documento.add(new Paragraph("- Status: " + p.getPES_STATUS()));
+			documento.add(new Paragraph(" "));
+			documento.add(new Paragraph("Fim do arquivo. "));
+				
 			}
-			
+				
 			documento.close();
 
 		} catch (Exception e) {
