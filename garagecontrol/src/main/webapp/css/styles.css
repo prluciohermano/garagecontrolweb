@@ -7,6 +7,8 @@ h1 {
 	color: #0cc2aa;
 }
 
+
+
 h3 { /*Preencha os campos*/
 
 	margin-left: 15px;
@@ -155,6 +157,20 @@ h5 { /*Destaque dos textos*/
 	margin-left: 170px;
 }
 
+.Botao9 { /* Botão Entrar verde Senha */
+	text-decoration: none;
+	background-color: #0cc2aa;
+	padding: 8px 25px 8px 25px;
+	color: #fff;
+	font-size: 2em;
+	font-weight: 400;
+	border-radius: 5px;
+	border: 0px;
+	cursor: pointer;
+	margin-top: opx;
+	margin-left: 120px;
+}
+
 
 .Caixa1 {
 	width: 320px;
@@ -175,6 +191,40 @@ h5 { /*Destaque dos textos*/
 	padding: 5px;
 	margin-bottom: 10px;
 	border: 1px solid #ff0000;
+}
+
+.Box {
+	display: flex;
+	flex: auto;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-content: space-around;
+	
+	
+}
+
+
+.fundo2{
+	width: 650px;
+}
+
+h1 {
+	color: #0cc2aa;
+	margin-left: 120px;
+}
+
+h4 {
+	color: black;
+	margin-left: 120px;
+}
+
+.Caixa4 {
+	width: 320px;
+	font-size: 30px;
+	margin: 20px;
+	margin-left: 120px;
+	padding: 20px;
+	border: 3px solid #0cc2aa;
 }
 
 #box {
@@ -222,7 +272,6 @@ h5 { /*Destaque dos textos*/
 
 body,
 p,
-h1,
 h2,
 input,
 textarea {

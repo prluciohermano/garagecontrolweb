@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ page import="model.JavaBeans"%>
+<%@ page import="model.Clientes"%>
 <%@ page import="java.util.ArrayList"%>
 <%
 @SuppressWarnings("unchecked")
-ArrayList<JavaBeans> lista = (ArrayList<JavaBeans>) request.getAttribute("clientes");
+ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("clientes");
 %>
 <!DOCTYPE html>
 <html lang="pt-br">

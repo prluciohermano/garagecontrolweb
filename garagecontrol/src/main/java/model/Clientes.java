@@ -1,6 +1,6 @@
 package model;
 
-public class JavaBeans {
+public class Clientes {
 
 	private int PES_COD;
 	private String PES_NOME;
@@ -18,11 +18,11 @@ public class JavaBeans {
 	private String PES_DTCADASTRO;
 	private String PES_STATUS;
 
-	public JavaBeans() {
+	public Clientes() {
 		super();
 	}
 
-	public JavaBeans(int pES_COD, String pES_NOME, String pES_RG, String pES_CPF, String pES_DTNASCIMENTO,
+	public Clientes(int pES_COD, String pES_NOME, String pES_RG, String pES_CPF, String pES_DTNASCIMENTO,
 			String pES_CEP, String pES_TEL, String pES_RUA, String pES_NUM, String pES_BAI,
 			String pES_CID, String pES_UF, String pES_COMP, String pES_DTCADASTRO, String pES_STATUS) {
 		super();

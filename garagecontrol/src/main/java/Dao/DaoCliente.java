@@ -1,47 +1,32 @@
-package model;
+package Dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAO {
+import Conexao.ConnectionFactory;
+import model.Clientes;
 
-	private String driver = "com.mysql.cj.jdbc.Driver";
-	private String url = "jdbc:mysql://luciohermano.mysql.dbaas.com.br:3306/luciohermano?characterEncoding=utf-8";
-	//private String url = "jdbc:mysql://127.0.0.1:3306/luciohermano?useTimezone=true&serverTimezone=UTC";
-	private String user = "luciohermano";
-	private String password = "Lucio#2022";
+public class DaoCliente {
 
-	public Connection conectar() {
-		Connection con = null;
-
-		try {
-
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, user, password);
-			return con;
-
-		} catch (Exception e) {
-			System.out.println("Erro na conexão " + e);
-			return null;
-		}
-	}
+	private Connection con = null;
 
 	/** ------------ CREATE: INSERIR CLIENTE --------------- **/
 
-	public void inserirCliente(JavaBeans cliente) {
-
+	public void inserirCliente(Clientes cliente) {
+		con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+        ResultSet rs = null;
+        
 		String create = "INSERT INTO PESSOA (PES_NOME, PES_RG, PES_CPF, PES_DTNASCIMENTO, PES_CEP, PES_TEL, "
 				+ "PES_RUA, PES_NUM, PES_BAI, PES_CID, PES_UF, PES_COMP, PES_DTCADASTRO, PES_STATUS) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try {
-			Connection con = conectar();
-
-			PreparedStatement stm = con.prepareStatement(create);
+			stm = con.prepareStatement(create);
+            rs = stm.executeQuery();
 
 			stm.setString(1, cliente.getPES_NOME().toUpperCase().trim());
 			stm.setString(2, cliente.getPES_RG().toUpperCase().trim());
@@ -75,15 +60,20 @@ public class DAO {
 
 	/** --------------- READ: LER CLIENTES --------------- **/
 
-	public ArrayList<JavaBeans> listarClientes() {
-		ArrayList<JavaBeans> clientes = new ArrayList<>();
+	public ArrayList<Clientes> listarClientes() {
+		
+		con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+        ResultSet rs = null;
+        
+		ArrayList<Clientes> clientes = new ArrayList<>();
 
 		String read = "SELECT * FROM PESSOA ORDER BY PES_NOME";
 
 		try {
-			Connection con = conectar();
-			PreparedStatement stm = con.prepareStatement(read);
-			ResultSet rs = stm.executeQuery();
+
+			stm = con.prepareStatement(read);
+			rs = stm.executeQuery();
 
 			while (rs.next()) {
 				int PES_COD = rs.getInt(1);
@@ -102,7 +92,7 @@ public class DAO {
 				String PES_DTCADASTRO = rs.getString(14);
 				String PES_STATUS = rs.getString(15);
 
-				clientes.add(new JavaBeans(PES_COD, PES_NOME, PES_RG, PES_CPF, PES_DTNASCIMENTO, PES_CEP, PES_TEL,
+				clientes.add(new Clientes(PES_COD, PES_NOME, PES_RG, PES_CPF, PES_DTNASCIMENTO, PES_CEP, PES_TEL,
 						PES_RUA, PES_NUM, PES_BAI, PES_CID, PES_UF, PES_COMP, PES_DTCADASTRO, PES_STATUS));
 			}
 			con.close();
@@ -117,14 +107,18 @@ public class DAO {
 
 	/** --------------- SELECT: SELECIONAR UM CLIENTE --------------- **/
 
-	public void selecionarCliente(JavaBeans cliente) {
+	public void selecionarCliente(Clientes cliente) {
+		con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+        ResultSet rs = null;
+        
 		String read2 = "SELECT * FROM PESSOA WHERE PES_COD = ?";
 
 		try {
-			Connection con = conectar();
-			PreparedStatement stm = con.prepareStatement(read2);
+			
+			stm = con.prepareStatement(read2);
 			stm.setInt(1, cliente.getPES_COD());
-			ResultSet rs = stm.executeQuery();
+			rs = stm.executeQuery();
 
 			while (rs.next()) {
 				cliente.setPES_COD(Integer.valueOf(rs.getInt(1)));
@@ -153,20 +147,23 @@ public class DAO {
 	
 	/** --------------- SELECT: BUSCA UM CLIENTE POR CÓDIGO--------------- **/
 
-	public List<JavaBeans> buscarCliente(int cliCod) {
+	public List<Clientes> buscarCliente(int cliCod) {
+		con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+        ResultSet rs = null;
 		
-		List<JavaBeans> clientes = new ArrayList<JavaBeans>();
+		List<Clientes> clientes = new ArrayList<Clientes>();
 		
 		String read2 = "SELECT PES_COD, PES_NOME, PES_RG, PES_CPF, PES_DTNASCIMENTO, PES_CEP, PES_TEL, PES_RUA, PES_NUM, "
 				+ "PES_BAI, PES_CID, PES_UF, PES_COMP, PES_DTCADASTRO, PES_STATUS FROM PESSOA WHERE PES_COD = " + cliCod;
 
 		try {
-			Connection con = conectar();
-			PreparedStatement stm = con.prepareStatement(read2);
-			ResultSet rs = stm.executeQuery();
+			
+			stm = con.prepareStatement(read2);
+			rs = stm.executeQuery();
 
 			while (rs.next()) {
-				JavaBeans cliente = new JavaBeans();
+				Clientes cliente = new Clientes();
 				cliente.setPES_COD(rs.getInt("PES_COD"));
 				cliente.setPES_NOME(rs.getString("PES_NOME"));
 				cliente.setPES_RG(rs.getString("PES_RG"));
@@ -196,21 +193,24 @@ public class DAO {
 	
 	/** --------------- SELECT: SELECIONAR UM CLIENTE POR NOME --------------- **/
 
-	public List<JavaBeans> pesquisaCliente(String cliente2) {
+	public List<Clientes> pesquisaCliente(String cliente2) {
+		con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+        ResultSet rs = null;
 		
 		String escolha = "SELECT PES_COD, PES_NOME, PES_RG, PES_CPF, PES_DTNASCIMENTO,"
                 + "PES_CEP, PES_TEL, PES_RUA, PES_NUM, PES_BAI, PES_CID, PES_UF, PES_COMP, PES_DTCADASTRO,"
                 + "PES_STATUS FROM PESSOA WHERE PES_NOME LIKE'%" + cliente2 + "%'";
 
-		List<JavaBeans> pessoas = new ArrayList<>();
+		List<Clientes> pessoas = new ArrayList<>();
 		
 		try {
-			Connection con = conectar();
-			PreparedStatement stm = con.prepareStatement(escolha);
-			ResultSet rs = stm.executeQuery();
+			
+			stm = con.prepareStatement(escolha);
+			rs = stm.executeQuery();
 
 			while (rs.next()) {
-				JavaBeans pes = new JavaBeans();
+				Clientes pes = new Clientes();
 				pes.setPES_COD(rs.getInt("PES_COD"));
 				pes.setPES_NOME(rs.getString("PES_NOME"));
 				pes.setPES_RG(rs.getString("PES_RG"));
@@ -240,15 +240,18 @@ public class DAO {
 
 	/** ---------------- UPDATE: ALTERAR UM CLIENTE --------------- **/
 
-	public void alterarCliente(JavaBeans cliente) {
+	public void alterarCliente(Clientes cliente) {
+		con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
+        ResultSet rs = null;
 
 		String edit = "UPDATE PESSOA SET PES_NOME = ?, PES_RG = ?, PES_CPF = ?, PES_DTNASCIMENTO = ?, PES_CEP = ?, "
 				+ "PES_TEL = ?, PES_RUA = ?, PES_NUM = ?, PES_BAI = ?, PES_CID = ?, PES_UF = ?, PES_COMP = ?, "
 				+ "PES_DTCADASTRO = ?, PES_STATUS = ? WHERE PES_COD = ?";
 
 		try {
-			Connection con = conectar();
-			PreparedStatement stm = con.prepareStatement(edit);
+			
+			stm = con.prepareStatement(edit);
 
 			stm.setString(1, cliente.getPES_NOME());
 			stm.setString(2, cliente.getPES_RG());
@@ -281,13 +284,15 @@ public class DAO {
 		}
 	}
 
-	public void deletarCliente(JavaBeans cliente) {
+	public void deletarCliente(Clientes cliente) {
+		con = ConnectionFactory.getConnection();
+		PreparedStatement stm = null;
 
 		String delete = "DELETE FROM PESSOA WHERE PES_COD = ?";
 
 		try {
-			Connection con = conectar();
-			PreparedStatement stm = con.prepareStatement(delete);
+			
+			stm = con.prepareStatement(delete);
 			stm.setInt(1, cliente.getPES_COD());
 			stm.executeUpdate();
 			con.close();
