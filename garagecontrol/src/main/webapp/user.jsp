@@ -3,6 +3,7 @@
 <%@ page import="model.Usuario"%>
 <%@ page import="Dao.DaoUsuario"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
 <%
 @SuppressWarnings("unchecked")
 ArrayList<Usuario> user = (ArrayList<Usuario>) request.getAttribute("usuarios");
@@ -35,16 +36,27 @@ ArrayList<Usuario> user = (ArrayList<Usuario>) request.getAttribute("usuarios");
 	<div class="Box">
 	<img src="img/proj1.jpg" class="fundo2">
 	<br>
-		<form id="form2" name="frmUsuario" action="readUser">
+		<form id="form2" name="frmUsuario" action="readUser" method="post">
 		<br><br><br><br><br><br><br><br><br>
 		<h1>Bem vindo, à Garage Control</h1>
-		<h4>Não é revendedor? Cadastre-se</h4><br>
-		<input name="usuLogin" value="" placeholder="Digite o login" class="Caixa4" />
+		<h4>Área Restrita! Coloque usuário e senha.<a href="readUser.jsp"> Esqueci a senha.</a></h4><br>
+		<input name="usuLogin" value="" placeholder="Digite o usuário" class="Caixa4" autofocus/>
 		<br>
-		<input name="usuSenha" value=""	placeholder="Digite a senha" class="Caixa4" />
+		<input type="password" name="usuSenha" placeholder="Digite a senha" id="pass" minlength="4"
+		required class="Caixa4"/>
 		<br>
-		<input type="submit" value="Entrar" class="Botao9" onclick="valida()">			
+		<input type="submit" value="Entrar" class="Botao9" onclick="valida()">	
 	</form>
+	
+		<%
+			String usuario = request.getParameter("usuLogin");
+			String senha = request.getParameter("usuSenha");
+			
+			if(usuario != null && senha != null && !usuario.isEmpty() && !senha.isEmpty()){
+				session.setAttribute("usuLogin", usuario);
+				response.sendRedirect("Logger.jsp");
+			}
+		%>
 	</div>
 	<script src="scripts/confirma.js"></script>
 	

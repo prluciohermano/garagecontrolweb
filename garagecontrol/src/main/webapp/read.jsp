@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
 	<header id="navbar">
 		<img src="img/carro2.png" alt="carro1">
 		<h2>GARAGE CONTROL</h2>

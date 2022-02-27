@@ -34,7 +34,7 @@ ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("clientes
 	</div>
 	<br>
 	<form method="get" action="read">
-		<a href="index.html" class="Botao4"> Voltar </a> <a href="novo.html"
+		<a href="Logger.jsp" class="Botao4"> Voltar </a> <a href="novo.html"
 			class="Botao3">+Novo cliente</a> <input id="box" type="text"
 			name="pesNome" value=""
 			placeholder="Digite o nome aqui para pesquisar" class="Caixa1" /> <input

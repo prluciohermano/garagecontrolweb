@@ -1,3 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@ page import="model.Usuario"%>
+<%@ page import="Dao.DaoUsuario"%>
+<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,18 +13,31 @@
     <link rel="stylesheet" href="css/styles.css">
 <link rel="icon" href="imagens/clienteIcon.png">
 </head>
+
 <body>
+
+	<% 
+	/*
+		String usuario = (String) session.getAttribute("usuLogin");
+		if (usuario == null){
+			response.sendRedirect("user.jsp");
+		} else {
+			out.print("Bem vindo, " + usuario + " <br/>");
+		}
+		*/
+	%>
+
 	<!-- navbar -->
     <header id="navbar">
         <img src="img/carro2.png" alt="carro1">
         <h2>GARAGE CONTROL</h2>
-        
         <nav>
             <ul id="navbar-list">
-            	<li><a href="index.html">Home</a></li>
-                <li><a href="user.jsp">Área Restrita</a></li>
-                <li><a href="#">Sobre</a></li>
-                <li><a href="#">Contato</a></li>
+            	<li><a href="#">Ordem Serviço</a></li>
+                <li><a href="#">Veículos</a></li>
+                <li><a href="client">Clientes</a></li>
+                <li><a href="#">Usuários</a></li>
+                <li><a href="Deslogar.jsp">Deslogar</a></li>
             </ul>
         </nav>
     </header>
@@ -31,7 +49,7 @@
                <!--   <p>Controle de Pátio</p> -->
             </div>
         </div>
-        <!-- banner fim -->
+       <!-- banner fim -->
         <!-- about inicio -->
         <section id="about-section">
             <h2>Controle total de carros no pátio</h2>

@@ -9,6 +9,15 @@
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+	<% 
+		String usuario = (String) session.getAttribute("usuLogin");
+		if (usuario == null){
+			response.sendRedirect("user.jsp");
+		} else {
+			out.print("Bem vindo, " + usuario + " <br/>");
+		}
+	
+	%>
 	<header id="navbar">
         <img src="img/carro2.png" alt="carro1">
         <h2>GARAGE CONTROL</h2>

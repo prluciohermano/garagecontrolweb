@@ -4,24 +4,12 @@
  *
  */
 
-function valida() {
-	let usuNo = frmUsuario.usuLogin.value
-	let usuSe = frmUsuario.usuSenha.value
-	
-	out.print(usuLogin);
-	out.print(usuSenha);
-
-	if (usuNo === "") {
-		alert('Preencha o campo Usuario')
-		frmCliente.usuNome.focus()
-		return false
-
-	} else if (usuSe === "") {
-		alert('Preencha o campo Senha')
-		frmCliente.usuSenha.focus()
-		return false
-
-	} else {
-		document.forms["frmUsuario"].submit()
+function confirm(usuLog) {
+	let resposta = confirm(usuLog)
+	if (resposta === true) {
+		alert("Usuário ou Senha não conferem!") //- Envia o código para teste
+		//window.location.href = "delete?idcli=" + idcli
+	} else{
+		alert("Beleza!")
 	}
 }

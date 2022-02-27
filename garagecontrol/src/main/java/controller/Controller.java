@@ -31,11 +31,11 @@ public class Controller extends HttpServlet {
 	DaoUsuario daoUsu = new DaoUsuario();
 	Clientes cliente = new Clientes();
 	Usuario usuarios = new Usuario();
-	
+	static boolean bandeira = true;
 	boolean achou = false;
+	
 
 	public Controller() {}
-	
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -44,12 +44,15 @@ public class Controller extends HttpServlet {
 		String action = request.getServletPath();
 		
 		//System.out.println(action);
+		//System.out.println("Entrou aqui - doGet");
 				
 		if (action.equals("/user")) { // direciona para a página usuário
 			usuarios(request, response);
 			
 		} else if (action.equals("/readUser")) { // direciona para a página principal
-			listarUsuario(request, response);
+			response.sendRedirect("readUser.jsp");
+			System.out.println("Entrou aqui - /readUser");
+			//listarUsuario(request, response);
 
 		} else if (action.equals("/client")) { // direciona para a página principal
 			clientes(request, response);
@@ -76,13 +79,38 @@ public class Controller extends HttpServlet {
 			imprimirCliente(request, response);
 
 		} else {
-			response.sendRedirect("index.html"); // volta para a página principal
+			response.sendRedirect("/user.jsp"); // volta para a página principal
 		}
 
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		con = ConnectionFactory.getConnection();
+		
+		System.out.println("Entrou no doPost");
+
+		String action2 = request.getServletPath();
+		System.out.println(action2);
+		//bandeira = true;
+		
+		if (action2.equals("/readUser")) { // direciona para a página principal
+			System.out.println("antes do listar usuário");
+			listarUsuario(request, response);
+			System.out.println("depois do listar usuário");
+			}
+		
+		if (action2.equals("/readUser") && bandeira == false) {
+				System.out.println("QUANDO A SENHA TÁ ERRADA");
+				response.sendRedirect("user.jsp");
+			}
+		
+		System.out.println("Passou do doPost");
+		//action2 = "/Deslogar.jsp";
+		//request.getRequestDispatcher("Deslogar.jsp");
+		
+		
+		
 	}
 
 	// Listar clientes
@@ -338,22 +366,28 @@ public class Controller extends HttpServlet {
 	
 	protected void listarUsuario(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		String usuLogin = request.getParameter("usuLogin");
-		String usuSenha = request.getParameter("usuSenha");
+		System.out.println("Entrou no listar usuário");
+		String usuario = request.getParameter("usuLogin");
+		String senha = request.getParameter("usuSenha");
 		
 		daoUsu.listarUsuario();
 		
+		System.out.println("Usuário: " + usuario);
+		System.out.println("Senha: " + senha);
+		bandeira = false;
 		for (Usuario p : daoUsu.listarUsuario()) {
 						
-			if (usuLogin.equals(p.getUSU_LOG())  && usuSenha.equals(p.getUSU_SEN())) {
-				RequestDispatcher rd = request.getRequestDispatcher("logger.html");
-				rd.forward(request, response);
-			} 
+			if (usuario.equals(p.getUSU_LOG())  && senha.equals(p.getUSU_SEN())) {
+				System.out.println("Usuário encontrado: " + p.getUSU_LOG());
+				System.out.println("Senha encontrado: " + p.getUSU_SEN());
+				System.out.println("Entrou no if do usuario e login");
+				bandeira = true;
+				//RequestDispatcher rd = request.getRequestDispatcher("Logger.jsp");
+				//rd.forward(request, response);	
+				response.sendRedirect("Logger.jsp");
 			
+			}
 		}
-	
-		
 	}
-
+	
 }
