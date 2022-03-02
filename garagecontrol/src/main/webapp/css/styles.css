@@ -295,13 +295,16 @@ h2 {
 
 /* navbar */
 
+
 #navbar {
     background-color: #0cc2aa;
-    /* red */
+   
     color: #FFF;
     padding: 0 15px;
     height: 60px;
 }
+
+
 #navbar-list2 {
 	
 	text-decoration: underline;
@@ -329,8 +332,8 @@ h2 {
 
 #navbar img {
     height: 40px;
-    position: absolute;
-    top: 10px;
+    position: inherit;
+    top: auto;
 }
 
 #navbar nav {
@@ -559,13 +562,15 @@ footer p {
 
 footer form {
     width: 400px;
+    border-radius: 10px;
     margin-left: auto;
     margin-right: auto;
 }
 
-footer input,
+footer input,   /* Botão de Enviar mensagem*/
 footer textarea {
     border: none;
+    border-radius: 10px;
     padding: 15px;
     box-sizing: border-box;
     margin-bottom: 20px;
@@ -583,6 +588,7 @@ footer .detail {
     textarea {
         font-size: 1.2rem;
     }
+    
     #navbar h2 {
         display: none;
     }
@@ -595,6 +601,7 @@ footer .detail {
     #navbar-list li a {
         font-size: 1.2rem;
     }
+    
     #main-banner {
         height: 40vh;
         padding-top: 5vh;
@@ -650,7 +657,7 @@ footer .detail {
         padding: 50px 15px;
     }
     footer form {
-        width: 100%;
+        width: 200%;
     }
     .detail {
         margin-top: 10px;

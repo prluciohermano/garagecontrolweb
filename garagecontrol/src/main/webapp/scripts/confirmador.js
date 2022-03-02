@@ -9,6 +9,6 @@ function confirmar(idcli) {
 	if (resposta === true) {
 		//alert(idcli) //- Envia o código para teste
 		window.location.href = "delete?idcli=" + idcli
-
+		alert("Cadastro excluído com sucesso!") //- Envia o código para teste
 	}
 }

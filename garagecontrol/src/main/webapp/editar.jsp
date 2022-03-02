@@ -10,11 +10,11 @@
 </head>
 <body>
 	<% 
-		String usuario = (String) session.getAttribute("usuLogin");
-		if (usuario == null){
+		String usuLogin = (String) session.getAttribute("usuLogin");
+		if (usuLogin == null){
 			response.sendRedirect("user.jsp");
 		} else {
-			out.print("Bem vindo, " + usuario + " <br/>");
+			out.print("Bem vindo, " + usuLogin + " <br/>");
 		}
 	
 	%>
@@ -28,6 +28,7 @@
                 <li><a href="#">Carros</a></li>
                 <li><a href="client">Clientes</a></li>
                 <li><a href="#">Contato</a></li>
+                <li><a href="Deslogar.jsp">Deslogar</a></li>
             </ul>
         </nav>
     </header>

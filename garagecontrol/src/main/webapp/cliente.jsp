@@ -15,6 +15,15 @@ ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("clientes
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+	<% 
+		String usuLogin = (String) session.getAttribute("usuLogin");
+		if (usuLogin == null){
+			response.sendRedirect("user.jsp");
+		} else {
+			out.print("Bem vindo, " + usuLogin + " <br/>");
+		}
+	
+	%>
 	<header id="navbar">
 		<img src="img/carro2.png" alt="carro1">
 		<h2>GARAGE CONTROL</h2>
@@ -25,6 +34,7 @@ ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("clientes
 				<li><a href="#">Carros</a></li>
 				<li><a href="client">Clientes</a></li>
 				<li><a href="#">Contato</a></li>
+				<li><a href="Deslogar.jsp">Deslogar</a></li>
 			</ul>
 		</nav>
 	</header>

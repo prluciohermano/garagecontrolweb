@@ -3,6 +3,9 @@ package controller;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.SimpleEmail;
+import com.sun.mail.smtp.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,13 +18,14 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import java.util.*;
 import Conexao.ConnectionFactory;
 import Dao.DaoCliente;
 import Dao.DaoUsuario;
 import model.Clientes;
 import model.Usuario;
 
-@WebServlet(urlPatterns = { "/Controller", "/user", "/readUser", "/client", "/insert", "/select", "/update", "/delete", "/read", "/report",
+@WebServlet(urlPatterns = { "/Controller", "/user", "/email", "/readUser", "/client", "/insert", "/select", "/update", "/delete", "/read", "/report",
 		"/printer" })
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -33,6 +37,7 @@ public class Controller extends HttpServlet {
 	Usuario usuarios = new Usuario();
 	static boolean bandeira = true;
 	boolean achou = false;
+	
 	
 
 	public Controller() {}
@@ -51,7 +56,7 @@ public class Controller extends HttpServlet {
 			
 		} else if (action.equals("/readUser")) { // direciona para a página principal
 			response.sendRedirect("readUser.jsp");
-			System.out.println("Entrou aqui - /readUser");
+			//System.out.println("Entrou aqui - /readUser");
 			//listarUsuario(request, response);
 
 		} else if (action.equals("/client")) { // direciona para a página principal
@@ -59,7 +64,10 @@ public class Controller extends HttpServlet {
 
 		} else if (action.equals("/insert")) { // direciona para a página Inserir novo Cliente
 			novoCliente(request, response);
-
+			/*
+		} else if (action.equals("/email")) { // direciona para a página enviar novo e-mail
+			EnviarEmail(request, response);
+*/
 		} else if (action.equals("/select")) { // direciona para a página selecionarr novo Cliente
 			listarCliente(request, response);
 
@@ -87,31 +95,70 @@ public class Controller extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		con = ConnectionFactory.getConnection();
-		
-		System.out.println("Entrou no doPost");
 
 		String action2 = request.getServletPath();
 		System.out.println(action2);
 		//bandeira = true;
 		
 		if (action2.equals("/readUser")) { // direciona para a página principal
-			System.out.println("antes do listar usuário");
+			//System.out.println("antes do listar usuário");
 			listarUsuario(request, response);
-			System.out.println("depois do listar usuário");
+			//System.out.println("depois do listar usuário");
 			}
 		
 		if (action2.equals("/readUser") && bandeira == false) {
-				System.out.println("QUANDO A SENHA TÁ ERRADA");
+				//System.out.println("QUANDO A SENHA TÁ ERRADA");
 				response.sendRedirect("user.jsp");
 			}
 		
-		System.out.println("Passou do doPost");
+		System.out.println("Passou pelo doPost");
 		//action2 = "/Deslogar.jsp";
 		//request.getRequestDispatcher("Deslogar.jsp");
 		
-		
-		
+		if (action2.equals("/email") ) {
+			System.out.println("ENVIAR E-MAIL");
+			Locale.setDefault(new Locale("pt", "BR"));
+			
+			String nomeEmail = request.getParameter("name");
+			String endEmail = request.getParameter("email");
+			String msgEmail = request.getParameter("msg");
+			
+			if (!nomeEmail.equals("") && !endEmail.equals("") && !msgEmail.equals("")) {
+				String meuEmail = "prluciohermano@gmail.com";
+				String minhaSenha = "618Lucio618";
+				
+				SimpleEmail email = new SimpleEmail();
+				email.setHostName("smtp.gmail.com");
+				email.setSmtpPort(465);
+				email.setAuthenticator(new DefaultAuthenticator(meuEmail, minhaSenha));
+				email.setSSLOnConnect(true);
+				
+				try {
+					email.setFrom(endEmail);
+					email.setSubject(nomeEmail);
+					email.setMsg("Olá, eu sou o " + nomeEmail + "\n\nMeu e-mail é: " + endEmail + "\n\n" + "Mensagem: " + msgEmail);
+					email.addTo("raquel.princesa@gmail.com");
+					email.send();
+					System.out.println("Email foi enviado com sucesso");
+					nomeEmail = null;
+					endEmail = null;
+					msgEmail = null;
+							
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+				
+				response.sendRedirect("email.jsp");
+				} else {
+					response.sendRedirect("index.html");
+				}
+		}
+	
 	}
+			
+	
+		
+	
 
 	// Listar clientes
 
@@ -142,12 +189,12 @@ public class Controller extends HttpServlet {
 		cliente.setPES_CID(request.getParameter("cid"));
 		cliente.setPES_UF(request.getParameter("uf"));
 		cliente.setPES_COMP(request.getParameter("comp"));
-		cliente.setPES_STATUS(request.getParameter("status"));
 		cliente.setPES_DTCADASTRO(request.getParameter("dtcad"));
+		cliente.setPES_STATUS(request.getParameter("status"));
 
 		dao.inserirCliente(cliente);
 
-		response.sendRedirect("main");
+		response.sendRedirect("client");
 	}
 
 	// Listar cliente
@@ -206,7 +253,7 @@ public class Controller extends HttpServlet {
 
 		dao.alterarCliente(cliente);
 
-		response.sendRedirect("main");
+		response.sendRedirect("client");
 	}
 
 	// Remover um cliente
@@ -219,7 +266,7 @@ public class Controller extends HttpServlet {
 		cliente.setPES_COD(Integer.parseInt(PES_COD));
 
 		dao.deletarCliente(cliente);
-		response.sendRedirect("main");
+		response.sendRedirect("client");
 	}
 
 	protected void pesquisarCliente(HttpServletRequest request, HttpServletResponse response)
@@ -366,21 +413,21 @@ public class Controller extends HttpServlet {
 	
 	protected void listarUsuario(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("Entrou no listar usuário");
+		//System.out.println("Entrou no listar usuário");
 		String usuario = request.getParameter("usuLogin");
 		String senha = request.getParameter("usuSenha");
 		
 		daoUsu.listarUsuario();
 		
-		System.out.println("Usuário: " + usuario);
-		System.out.println("Senha: " + senha);
+		//System.out.println("Usuário: " + usuario);
+		//System.out.println("Senha: " + senha);
 		bandeira = false;
 		for (Usuario p : daoUsu.listarUsuario()) {
 						
 			if (usuario.equals(p.getUSU_LOG())  && senha.equals(p.getUSU_SEN())) {
-				System.out.println("Usuário encontrado: " + p.getUSU_LOG());
-				System.out.println("Senha encontrado: " + p.getUSU_SEN());
-				System.out.println("Entrou no if do usuario e login");
+				//System.out.println("Usuário encontrado: " + p.getUSU_LOG());
+				//System.out.println("Senha encontrado: " + p.getUSU_SEN());
+				//System.out.println("Entrou no if do usuario e login");
 				bandeira = true;
 				//RequestDispatcher rd = request.getRequestDispatcher("Logger.jsp");
 				//rd.forward(request, response);	
@@ -388,6 +435,16 @@ public class Controller extends HttpServlet {
 			
 			}
 		}
+	}
+	protected void EnviarEmail(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String nome = request.getParameter("name");
+		String email = request.getParameter("email");
+		String msg = request.getParameter("msg");
+		
+		System.out.println("Nome: " + nome);
+		System.out.println("E-mail: " + email);
+		System.out.println("Msg: " + msg);
 	}
 	
 }

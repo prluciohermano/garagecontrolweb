@@ -26,7 +26,7 @@ public class DaoCliente {
 
 		try {
 			stm = con.prepareStatement(create);
-            rs = stm.executeQuery();
+            //rs = stm.executeQuery();
 
 			stm.setString(1, cliente.getPES_NOME().toUpperCase().trim());
 			stm.setString(2, cliente.getPES_RG().toUpperCase().trim());
@@ -42,7 +42,7 @@ public class DaoCliente {
 			stm.setString(12, cliente.getPES_COMP().toUpperCase().trim());
 			stm.setString(13, cliente.getPES_DTCADASTRO().trim());
 			stm.setString(14, cliente.getPES_STATUS());
-
+			
 			int inserido = stm.executeUpdate();
 
 			if (inserido > 0) {

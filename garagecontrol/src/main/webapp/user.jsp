@@ -36,7 +36,7 @@ ArrayList<Usuario> user = (ArrayList<Usuario>) request.getAttribute("usuarios");
 	<div class="Box">
 	<img src="img/proj1.jpg" class="fundo2">
 	<br>
-		<form id="form2" name="frmUsuario" action="readUser" method="post">
+		<form id="form2" name="frmUsuario" action="user.jsp" method="post">
 		<br><br><br><br><br><br><br><br><br>
 		<h1>Bem vindo, à Garage Control</h1>
 		<h4>Área Restrita! Coloque usuário e senha.<a href="readUser.jsp"> Esqueci a senha.</a></h4><br>
@@ -49,11 +49,11 @@ ArrayList<Usuario> user = (ArrayList<Usuario>) request.getAttribute("usuarios");
 	</form>
 	
 		<%
-			String usuario = request.getParameter("usuLogin");
-			String senha = request.getParameter("usuSenha");
+			String usuLogin = request.getParameter("usuLogin");
+			String usuSenha = request.getParameter("usuSenha");
 			
-			if(usuario != null && senha != null && !usuario.isEmpty() && !senha.isEmpty()){
-				session.setAttribute("usuLogin", usuario);
+			if(usuLogin != null && usuSenha != null && !usuLogin.isEmpty() && !usuSenha.isEmpty()){
+				session.setAttribute("usuLogin", usuLogin);
 				response.sendRedirect("Logger.jsp");
 			}
 		%>
