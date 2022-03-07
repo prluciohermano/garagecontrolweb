@@ -95,12 +95,16 @@
         <h2>Me mande uma mensagem</h2>
         <p>Caso queira falar sobre o projeto, contratar o serviço para sua empresa, ou falar conosco...</p>
         <img src="img/carro2.png" alt="Perfil carro2">
-        <form action="email" method="post" name="teste">
+        <form action="EmailController" method="post" name="teste">
             <input type="text" name="name" placeholder="Seu nome">
             <input type="email" name="email" placeholder="Seu e-mail">
             <textarea name="msg" placeholder="Digite uma mensagem"></textarea>
-            <input type="submit" value="Enviar">
+            <div class="btns">
+            <button type="submit" class="efeito efeito-3">Enviar Mensagem</button>            
+            </div>
+            
         </form>
+        
         <p>Desenvolvido por <span class="detail">Lúcio Hermano Batista</span>
             <br> Análise e Desenvolvimento de Sistemas - UNIGOIÁS
         </p>

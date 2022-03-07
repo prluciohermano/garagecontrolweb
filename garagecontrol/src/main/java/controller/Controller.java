@@ -9,6 +9,7 @@ import com.sun.mail.smtp.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +26,9 @@ import Dao.DaoUsuario;
 import model.Clientes;
 import model.Usuario;
 
-@WebServlet(urlPatterns = { "/Controller", "/user", "/email", "/readUser", "/client", "/insert", "/select", "/update", "/delete", "/read", "/report",
+@WebServlet(urlPatterns = {"/Controller", "/user", "/Logger", "/Deslogar", "/email", "/novo", "/forgot", "/client", "/insert", "/select", "/update", "/delete", "/read", "/report",
 		"/printer" })
+		
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -38,8 +40,6 @@ public class Controller extends HttpServlet {
 	static boolean bandeira = true;
 	boolean achou = false;
 	
-	
-
 	public Controller() {}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,27 +47,37 @@ public class Controller extends HttpServlet {
 		con = ConnectionFactory.getConnection();
 
 		String action = request.getServletPath();
-		
-		//System.out.println(action);
-		//System.out.println("Entrou aqui - doGet");
+		System.out.println(action);
 				
 		if (action.equals("/user")) { // direciona para a página usuário
 			usuarios(request, response);
 			
-		} else if (action.equals("/readUser")) { // direciona para a página principal
-			response.sendRedirect("readUser.jsp");
-			//System.out.println("Entrou aqui - /readUser");
-			//listarUsuario(request, response);
-
+		} else if (action.equals("/forgot")) { // direciona para a página principal
+			RequestDispatcher rd = request.getRequestDispatcher("/principal/forgot.jsp");
+			rd.forward(request, response);
+			//response.sendRedirect("/principal/forgot.jsp");
+			
+		} else if (action.equals("/novo")) { // direciona para a página principal
+			RequestDispatcher rd = request.getRequestDispatcher("/principal/novo.jsp");
+			rd.forward(request, response);
+			//response.sendRedirect("/novo");
+			
+		} else if (action.equals("/Logger")) { // direciona para a página principal
+			RequestDispatcher rd = request.getRequestDispatcher("/principal/Logger.jsp");
+			rd.forward(request, response);
+			//response.sendRedirect("/Logger");
+			
+		} else if (action.equals("/Deslogar")) { // direciona para a página principal
+			RequestDispatcher rd = request.getRequestDispatcher("/principal/Deslogar.jsp");
+			rd.forward(request, response);
+			//response.sendRedirect("/Deslogar");
+			
 		} else if (action.equals("/client")) { // direciona para a página principal
 			clientes(request, response);
 
 		} else if (action.equals("/insert")) { // direciona para a página Inserir novo Cliente
 			novoCliente(request, response);
-			/*
-		} else if (action.equals("/email")) { // direciona para a página enviar novo e-mail
-			EnviarEmail(request, response);
-*/
+
 		} else if (action.equals("/select")) { // direciona para a página selecionarr novo Cliente
 			listarCliente(request, response);
 
@@ -87,9 +97,8 @@ public class Controller extends HttpServlet {
 			imprimirCliente(request, response);
 
 		} else {
-			response.sendRedirect("/user.jsp"); // volta para a página principal
+			response.sendRedirect("/principal/user.jsp"); // volta para a página principal
 		}
-
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -98,67 +107,18 @@ public class Controller extends HttpServlet {
 
 		String action2 = request.getServletPath();
 		System.out.println(action2);
-		//bandeira = true;
 		
-		if (action2.equals("/readUser")) { // direciona para a página principal
-			//System.out.println("antes do listar usuário");
+		if (action2.equals("/forgot")) { // direciona para a página principal
 			listarUsuario(request, response);
-			//System.out.println("depois do listar usuário");
 			}
 		
-		if (action2.equals("/readUser") && bandeira == false) {
-				//System.out.println("QUANDO A SENHA TÁ ERRADA");
-				response.sendRedirect("user.jsp");
+		if (action2.equals("/forgot") && bandeira == false) {
+				response.sendRedirect("/principal/user.jsp");
 			}
 		
 		System.out.println("Passou pelo doPost");
-		//action2 = "/Deslogar.jsp";
-		//request.getRequestDispatcher("Deslogar.jsp");
-		
-		if (action2.equals("/email") ) {
-			System.out.println("ENVIAR E-MAIL");
-			Locale.setDefault(new Locale("pt", "BR"));
-			
-			String nomeEmail = request.getParameter("name");
-			String endEmail = request.getParameter("email");
-			String msgEmail = request.getParameter("msg");
-			
-			if (!nomeEmail.equals("") && !endEmail.equals("") && !msgEmail.equals("")) {
-				String meuEmail = "prluciohermano@gmail.com";
-				String minhaSenha = "618Lucio618";
-				
-				SimpleEmail email = new SimpleEmail();
-				email.setHostName("smtp.gmail.com");
-				email.setSmtpPort(465);
-				email.setAuthenticator(new DefaultAuthenticator(meuEmail, minhaSenha));
-				email.setSSLOnConnect(true);
-				
-				try {
-					email.setFrom(endEmail);
-					email.setSubject(nomeEmail);
-					email.setMsg("Olá, eu sou o " + nomeEmail + "\n\nMeu e-mail é: " + endEmail + "\n\n" + "Mensagem: " + msgEmail);
-					email.addTo("raquel.princesa@gmail.com");
-					email.send();
-					System.out.println("Email foi enviado com sucesso");
-					nomeEmail = null;
-					endEmail = null;
-					msgEmail = null;
-							
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-				
-				response.sendRedirect("email.jsp");
-				} else {
-					response.sendRedirect("index.html");
-				}
-		}
 	
 	}
-			
-	
-		
-	
 
 	// Listar clientes
 
@@ -168,7 +128,7 @@ public class Controller extends HttpServlet {
 		ArrayList<Clientes> lista = dao.listarClientes();
 
 		request.setAttribute("clientes", lista);
-		RequestDispatcher rd = request.getRequestDispatcher("cliente.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/principal/cliente.jsp");
 		rd.forward(request, response);
 	}
 
@@ -194,7 +154,7 @@ public class Controller extends HttpServlet {
 
 		dao.inserirCliente(cliente);
 
-		response.sendRedirect("client");
+		response.sendRedirect("/principal/cliente.jsp");
 	}
 
 	// Listar cliente
@@ -224,7 +184,7 @@ public class Controller extends HttpServlet {
 		request.setAttribute("dtcad", cliente.getPES_DTCADASTRO());
 		request.setAttribute("status", cliente.getPES_STATUS());
 
-		RequestDispatcher rd = request.getRequestDispatcher("editar.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("principal/editar.jsp");
 		rd.forward(request, response);
 	}
 
@@ -262,9 +222,7 @@ public class Controller extends HttpServlet {
 			throws ServletException, IOException {
 
 		String PES_COD = request.getParameter("idcli");
-
 		cliente.setPES_COD(Integer.parseInt(PES_COD));
-
 		dao.deletarCliente(cliente);
 		response.sendRedirect("client");
 	}
@@ -293,7 +251,7 @@ public class Controller extends HttpServlet {
 			request.setAttribute("status", p.getPES_STATUS());
 		}
 
-		RequestDispatcher rd = request.getRequestDispatcher("read.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("principal/read.jsp");
 		rd.forward(request, response);
 	}
 
@@ -337,15 +295,12 @@ public class Controller extends HttpServlet {
 				documento.add(new Paragraph("Data Cadastro: " + lista.get(i).getPES_DTCADASTRO()));
 				documento.add(new Paragraph("Status: " + lista.get(i).getPES_STATUS()));
 				documento.add(new Paragraph(" "));
-
 			}
 			documento.close();
 
 		} catch (Exception e) {
 			System.out.println(e);
-
 		}
-
 	}
 
 	// Imprimir a ficha do cliente em PDF
@@ -389,15 +344,11 @@ public class Controller extends HttpServlet {
 			documento.add(new Paragraph("- Data Cadastro: " + p.getPES_DTCADASTRO()));
 			documento.add(new Paragraph("- Status: " + p.getPES_STATUS()));
 			documento.add(new Paragraph(" "));
-			documento.add(new Paragraph("Fim do arquivo. "));
-				
-			}
-				
+			documento.add(new Paragraph("Fim do arquivo. "));		
+			}			
 			documento.close();
-
 		} catch (Exception e) {
 			System.out.println(e);
-
 		}
 	}
 
@@ -405,46 +356,24 @@ public class Controller extends HttpServlet {
 			throws ServletException, IOException {
 
 		ArrayList<Usuario> user = daoUsu.listarUsuario();
-
 		request.setAttribute("usuarios", user);
-		RequestDispatcher rd = request.getRequestDispatcher("user.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/principal/user.jsp");
 		rd.forward(request, response);
 	}
 	
 	protected void listarUsuario(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//System.out.println("Entrou no listar usuário");
 		String usuario = request.getParameter("usuLogin");
 		String senha = request.getParameter("usuSenha");
 		
 		daoUsu.listarUsuario();
-		
-		//System.out.println("Usuário: " + usuario);
-		//System.out.println("Senha: " + senha);
 		bandeira = false;
 		for (Usuario p : daoUsu.listarUsuario()) {
 						
 			if (usuario.equals(p.getUSU_LOG())  && senha.equals(p.getUSU_SEN())) {
-				//System.out.println("Usuário encontrado: " + p.getUSU_LOG());
-				//System.out.println("Senha encontrado: " + p.getUSU_SEN());
-				//System.out.println("Entrou no if do usuario e login");
-				bandeira = true;
-				//RequestDispatcher rd = request.getRequestDispatcher("Logger.jsp");
-				//rd.forward(request, response);	
-				response.sendRedirect("Logger.jsp");
-			
+				bandeira = true;	
+				response.sendRedirect("principal/Logger.jsp");	
 			}
 		}
 	}
-	protected void EnviarEmail(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String nome = request.getParameter("name");
-		String email = request.getParameter("email");
-		String msg = request.getParameter("msg");
-		
-		System.out.println("Nome: " + nome);
-		System.out.println("E-mail: " + email);
-		System.out.println("Msg: " + msg);
-	}
-	
 }

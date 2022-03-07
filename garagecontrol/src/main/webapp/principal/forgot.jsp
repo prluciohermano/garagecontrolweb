@@ -34,9 +34,9 @@ ArrayList<Usuario> user = (ArrayList<Usuario>) request.getAttribute("usuarios");
 	</div>
 	
 	<div class="Box">
-	<img src="img/esqueceuSenha.jpg" class="fundo2">
+	<img src="img/esqueceuSenha2.jpg" class="fundo2">
 	<br>
-		<form id="form2" name="frmUsuario" action="readUser" method="post">
+		<form id="form2" name="frmUsuario" action="forgot" method="post">
 		<br><br><br><br><br><br><br><br><br>
 		<h1>Esqueceu sua senha?</h1>
 		<h4>Informe seu e-mail para alterar sua senha.</h4><br>

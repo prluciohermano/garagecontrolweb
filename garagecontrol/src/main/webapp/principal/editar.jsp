@@ -14,7 +14,7 @@
 		if (usuLogin == null){
 			response.sendRedirect("user.jsp");
 		} else {
-			out.print("Bem vindo, " + usuLogin + " <br/>");
+			out.print("Usuário logado: " + usuLogin + "<br/>");
 		}
 	
 	%>
@@ -28,7 +28,7 @@
                 <li><a href="#">Carros</a></li>
                 <li><a href="client">Clientes</a></li>
                 <li><a href="#">Contato</a></li>
-                <li><a href="Deslogar.jsp">Deslogar</a></li>
+                <li><a href="/principal/Deslogar.jsp">Deslogar</a></li>
             </ul>
         </nav>
     </header>

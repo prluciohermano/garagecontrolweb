@@ -15,17 +15,15 @@
 </head>
 
 <body>
-
 	<% 
 		String usuLogin = (String) session.getAttribute("usuLogin");
 		if (usuLogin == null){
 			response.sendRedirect("user.jsp");
 		} else {
-			out.print("Bem vindo, " + usuLogin + " <br/>");
+			out.print("Usuário logado: " + usuLogin + "<br/>");
 		}
 	
 	%>
-
 	<!-- navbar -->
     <header id="navbar">
         <img src="img/carro2.png" alt="carro1">
@@ -36,7 +34,7 @@
                 <li><a href="#">Veículos</a></li>
                 <li><a href="client">Clientes</a></li>
                 <li><a href="#">Usuários</a></li>
-                <li><a href="Deslogar.jsp">Deslogar</a></li>
+                <li><a href="user.jsp">Deslogar</a></li>
             </ul>
         </nav>
     </header>

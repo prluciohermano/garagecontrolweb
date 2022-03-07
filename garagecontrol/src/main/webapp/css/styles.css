@@ -7,8 +7,6 @@ h1 {
 	color: #0cc2aa;
 }
 
-
-
 h3 { /*Preencha os campos*/
 
 	margin-left: 15px;
@@ -325,15 +323,16 @@ h2 {
 }
 
 #navbar h2 {
-    margin: 0;
+    margin: 0px;
+    
     line-height: 60px;
     margin-left: 55px;
 }
 
 #navbar img {
-    height: 40px;
-    position: inherit;
-    top: auto;
+    height: 50px;
+    position: relative;
+    top: 8%;
 }
 
 #navbar nav {
@@ -576,6 +575,35 @@ footer textarea {
     margin-bottom: 20px;
     width: 100%;
     display: block;
+}
+
+.bts { /* Botão de Enviar mensagem*/
+	text-align: center;
+	margin-top: 30px;
+}
+
+.efeito { /* Botão de Enviar mensagem*/
+	border: none;
+	color: #ffffff;
+	padding: 20px;
+	margin: 5px;
+	font-size: 24px;
+	line-height: 20px;
+	border-radius: 10px;
+	position: relative;
+	box-sizing: border-box;
+	cursor: pointer;
+	transition: all 200ms ease;
+}
+
+.efeito-3{ /* Botão de Enviar mensagem*/
+	background: #2F4F4F;	
+}
+
+.efeito:hover{ /* Botão de Enviar mensagem*/
+	background: rgba(0,0,0,0);
+	color: #2F4F4F;
+	box-shadow: inset 0 0 0 3px #2F4F4F;
 }
 
 footer .detail {

@@ -10,7 +10,7 @@ public class ConnectionFactory {
 	
 	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://luciohermano.mysql.dbaas.com.br:3306/luciohermano?characterEncoding=utf-8";
-	//private String url = "jdbc:mysql://127.0.0.1:3306/luciohermano?useTimezone=true&serverTimezone=UTC";
+	//private static final String URL = "jdbc:mysql://127.0.0.1:3306/luciohermano?useTimezone=true&serverTimezone=UTC";
 	private static final String USER = "luciohermano";
 	private static final String PASSWORD = "Lucio#2022";
 

@@ -20,7 +20,7 @@ ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("clientes
 		if (usuLogin == null){
 			response.sendRedirect("user.jsp");
 		} else {
-			out.print("Bem vindo, " + usuLogin + " <br/>");
+			out.print("Usuário logado: " + usuLogin + "<br/>");
 		}
 	
 	%>
@@ -30,11 +30,9 @@ ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("clientes
 		<nav>
 			<ul id="navbar-list">
 				
-				<li><a href="#">Sobre</a></li>
-				<li><a href="#">Carros</a></li>
+				<li><a href="Logger">Sistema</a></li>
 				<li><a href="client">Clientes</a></li>
-				<li><a href="#">Contato</a></li>
-				<li><a href="Deslogar.jsp">Deslogar</a></li>
+				<li><a href="Deslogar">Deslogar</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -44,7 +42,7 @@ ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("clientes
 	</div>
 	<br>
 	<form method="get" action="read">
-		<a href="Logger.jsp" class="Botao4"> Voltar </a> <a href="novo.html"
+		<a href="Logger" class="Botao4"> Voltar </a> <a href="novo"
 			class="Botao3">+Novo cliente</a> <input id="box" type="text"
 			name="pesNome" value=""
 			placeholder="Digite o nome aqui para pesquisar" class="Caixa1" /> <input

@@ -13,7 +13,7 @@
 </head>
 <body>
 	<h1>E-mail enviado</h1>
-	<h2>Arrou moleque!!</h2>
+	<h2>Arrasou moleque!!</h2>
 	
 </body>
 </html>
