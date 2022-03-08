@@ -34,10 +34,10 @@ public class DaoUsuario {
 				int USU_COD = rs.getInt(1);
 				String USU_USUARIO = rs.getString(2);
 				String USU_LOG = rs.getString(3);
-				String USU_SEN = rs.getString(4);
+				String USU_SENHA = rs.getString(4);
 				String USU_PER = rs.getString(5);
 				
-				usuarios.add(new Usuario(USU_COD, USU_USUARIO, USU_LOG, USU_SEN, USU_PER));
+				usuarios.add(new Usuario(USU_COD, USU_USUARIO, USU_LOG, USU_SENHA, USU_PER));
 			}
 			con.close();
 			return usuarios;

@@ -17,12 +17,13 @@ ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("clientes
 </head>
 <body>
 	<% 
-		String usuLogin = (String) session.getAttribute("usuLogin");
-		if (usuLogin == null){
+		String users = (String) session.getAttribute("usuLogin");
+		if (users == null){
 			response.sendRedirect("user.jsp");
 		} else {
-			out.print("Usuário logado: " + usuLogin + "<br/>");
+			out.print("Usuário logado: " + users + "<br/>");
 		}
+	
 	%>
 <header id="navbar">
         <img src="img/carro2.png" alt="carro1">
@@ -30,11 +31,8 @@ ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("clientes
 	<nav>
             <ul id="navbar-list">
            	    <li><a href="index.html">Home</a></li>
-                <li><a href="#">Sobre</a></li>
-                <li><a href="#">Carros</a></li>
-                <li><a href="main">Clientes</a></li>
-                <li><a href="#">Contato</a></li>
-                <li><a href="Deslogar.jsp">Deslogar</a></li>
+                <li><a href="client">Clientes</a></li>
+                <li><a href="Deslogar">Deslogar</a></li>
             </ul>
         </nav>
     </header>

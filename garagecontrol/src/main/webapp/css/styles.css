@@ -169,6 +169,19 @@ h5 { /*Destaque dos textos*/
 	margin-left: 120px;
 }
 
+.Botao10 { /* Botão Voltar */
+	text-decoration: none;
+	background-color: #0000FF;
+	padding: 6px 10px 6px 10px;
+	color: #fff;
+	font-size: 1em;
+	font-weight: 400;
+	border-radius: 5px;
+	border: 0px;
+	cursor: pointer;
+	margin: 2px;
+	margin-left: 205px;
+}
 
 .Caixa1 {
 	width: 320px;

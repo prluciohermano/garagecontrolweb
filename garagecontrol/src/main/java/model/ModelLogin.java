@@ -6,8 +6,10 @@ public class ModelLogin implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private String usuario;
 	private String login;
 	private String senha;
+	private String permission;
 	
 	public void setSenha(String senha) {
 		this.senha = senha;
@@ -24,4 +26,22 @@ public class ModelLogin implements Serializable {
 	public String getLogin() {
 		return login;
 	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getPermission() {
+		return permission;
+	}
+
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
+	
+	
 }

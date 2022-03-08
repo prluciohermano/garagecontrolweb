@@ -36,14 +36,18 @@ ArrayList<Usuario> user = (ArrayList<Usuario>) request.getAttribute("usuarios");
 	<div class="Box">
 	<img src="img/esqueceuSenha2.jpg" class="fundo2">
 	<br>
-		<form id="form2" name="frmUsuario" action="forgot" method="post">
+		<form id="form2" name="teste" action="usuEmail" method="post">
 		<br><br><br><br><br><br><br><br><br>
 		<h1>Esqueceu sua senha?</h1>
 		<h4>Informe seu e-mail para alterar sua senha.</h4><br>
-		<input name="usuEmail" value="" placeholder="Digite o e-mail" class="Caixa4" autofocus/>
+		<input name="usuMail" value="" placeholder="Digite o e-mail" class="Caixa4" autofocus/>
 		<br>
 		<br>
-		<input type="submit" value="Entrar" class="Botao9" onclick="valida()">	
+		<a href="user.jsp" class="Botao10"> Voltar </a>
+		<input type="submit" value="Enviar" class="Botao9" onclick="valida()">	
+		<br><br>
+		<h4>${msg}</h4>
+		<h4>${msg2}</h4>
 	</form>
 	</div>
 	<script src="scripts/confirma.js"></script>

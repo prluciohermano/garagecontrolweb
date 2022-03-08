@@ -370,7 +370,7 @@ public class Controller extends HttpServlet {
 		bandeira = false;
 		for (Usuario p : daoUsu.listarUsuario()) {
 						
-			if (usuario.equals(p.getUSU_LOG())  && senha.equals(p.getUSU_SEN())) {
+			if (usuario.equals(p.getUSU_LOG())  && senha.equals(p.getUSU_SENHA())) {
 				bandeira = true;	
 				response.sendRedirect("principal/Logger.jsp");	
 			}

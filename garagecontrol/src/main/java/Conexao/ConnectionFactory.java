@@ -18,15 +18,17 @@ public class ConnectionFactory {
 		Connection con = null;
 		
 		try {
-			
+			if(con == null) {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			return con;
+			con.setAutoCommit(false);
+			}
 			
 		} catch (Exception e) {
 			System.out.println("Erro na conexão " + e.getMessage());
 			return null;
 		}
+		return con;
 		
 		
 	}
@@ -62,5 +64,9 @@ public class ConnectionFactory {
         }
               closeConnection(con, stm);
     }
+
+		public void commit() {
+			
+		}
 
 }

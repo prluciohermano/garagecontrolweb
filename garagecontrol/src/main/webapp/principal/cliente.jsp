@@ -16,11 +16,11 @@ ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("clientes
 </head>
 <body>
 	<% 
-		String usuLogin = (String) session.getAttribute("usuLogin");
-		if (usuLogin == null){
+		String users = (String) session.getAttribute("usuLogin");
+		if (users == null){
 			response.sendRedirect("user.jsp");
 		} else {
-			out.print("Usuário logado: " + usuLogin + "<br/>");
+			out.print("Usuário logado: " + users + "<br/>");
 		}
 	
 	%>
