@@ -31,7 +31,7 @@
         <nav>
             <ul id="navbar-list">
             	<li><a href="#">Ordem Serviço</a></li>
-                <li><a href="#">Veículos</a></li>
+                <li><a href="product">Veículos</a></li>
                 <li><a href="client">Clientes</a></li>
                 <li><a href="#">Usuários</a></li>
                 <li><a href="user.jsp">Deslogar</a></li>

@@ -18,7 +18,7 @@ public class ConnectionFactory {
 		Connection con = null;
 		
 		try {
-			if(con == null) {
+			if (con == null) {
 			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			con.setAutoCommit(false);

@@ -1,5 +1,5 @@
-/filter/
-/controller/
-/Conexao/
 /Dao/
 /model/
+/controller/
+/Conexao/
+/filter/
