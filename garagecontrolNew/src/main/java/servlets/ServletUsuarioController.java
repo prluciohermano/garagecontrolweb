@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.primefaces.shaded.commons.io.IOUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
