@@ -62,8 +62,14 @@
 															
 															<div class="form-group form-default input-group mb-4">
 																<div class="input-group-prepend">
-																<img alt="Imagem User" id="fotoembase64" src="" width="70px">
-										
+																<c:if test="${modelUsuario.fotoUser != '' && modelUsuario.fotoUser != null}">
+																	<a href="<%= request.getContextPath()%>/ServletUsuarioController?acao=downloadFoto&id=${modelUsuario.id}">
+																	<img alt="Imagem User" id="fotoembase64" src="${modelUsuario.fotoUser}" width="70px">
+																	</a>
+																</c:if>
+																	<c:if test="${modelUsuario.fotoUser == '' || modelUsuario.fotoUser == null}">
+																		<img alt="Imagem User" id="fotoembase64" src="assets/images/faq_man.png" width="70px">
+																	</c:if>
 																</div>
 																<input type="file" id="fileFoto" name="fileFoto" accept="image/*" 
 																onchange="visualizarImg('fotoembase64', 'fileFoto')" class="form-control-file" style="margin-top: 15px; margin-left: 5px" >
@@ -117,8 +123,56 @@
 															</select>
 																	<span class="form-bar"></span>
 																	<label class="float-label">Perfil:</label>
-																</div>
-																
+															</div>
+														<div class="form-group form-default">
+															    <input type="text" name="cpf" id="cpf"
+																class="form-control" required="" autocomplete="off"
+																value="${modelUsuario.cpf }"> <span
+																class="form-bar"></span> <label class="float-label">CPF:</label>
+														</div>
+														<div class="form-group form-default">
+																<input onblur="pesquisaCep()" type="text" name="cep" id="cep"
+																class="form-control" required="" autocomplete="off"
+																value="${modelUsuario.cep }"> <span
+																class="form-bar"></span> <label class="float-label">CEP:</label>
+														</div>
+														<div class="form-group form-default">
+																<input type="text" name="logradouro" id="logradouro"
+																class="form-control" required="" autocomplete="off"
+																value="${modelUsuario.logradouro }"> <span
+																class="form-bar"></span> <label class="float-label">Logradouro:</label>
+														</div>
+														<div class="form-group form-default">
+															    <input type="text" name="numero" id="numero"
+																class="form-control" required="" autocomplete="off"
+																value="${modelUsuario.numero }"> <span
+																class="form-bar"></span> <label class="float-label">Número:</label>
+														</div>
+														<div class="form-group form-default">
+															    <input type="text" name="complemento" id="complemento"
+																class="form-control" required="" autocomplete="off"
+																value="${modelUsuario.complemento }"> <span
+																class="form-bar"></span> <label class="float-label">Complemento:</label>
+														</div>
+														<div class="form-group form-default">
+															    <input type="text" name="bairro" id="bairro"
+																class="form-control" required="" autocomplete="off"
+																value="${modelUsuario.bairro }"> <span
+																class="form-bar"></span> <label class="float-label">Bairro:</label>
+														</div>
+														<div class="form-group form-default">
+															    <input type="text" name="cidade" id="cidade"
+																class="form-control" required="" autocomplete="off"
+																value="${modelUsuario.cidade }"> <span
+																class="form-bar"></span> <label class="float-label">Cidade:</label>
+														</div>
+														<div class="form-group form-default">
+															    <input type="text" name="uf" id="uf"
+																class="form-control" required="" autocomplete="off"
+																value="${modelUsuario.uf }"> <span
+																class="form-bar"></span> <label class="float-label">UF:</label>
+														</div>
+								<% /*================================================================================================*/ %>												
 															<div class="form-group form-default">
 																<input type="text" name="login" id="login"
 																	class="form-control" required="" autocomplete="off"
@@ -198,6 +252,23 @@
 													</tbody>
 												</table>
 											</div>
+											
+											<nav aria-label="Page navigation example">
+											  <ul class="pagination">
+											    
+											    <%
+											    int totalPagina = (int) request.getAttribute("totalPagina");
+											    for (int p = 0; p< totalPagina; p++){
+											    	String url = request.getContextPath() + "/ServletUsuarioController?acao=paginar&pagina=" + (p * 5);
+											    	out.print("<li class=\"page-item\"><a class=\"page-link\" href=\""+ url +"\">"+ (p + 1) +"</a></li>");
+											    }
+											    
+											    %>
+											    
+											    											    
+											  </ul>
+											</nav>
+											
 										</div>
 									</div>
 									<!-- Page-body end -->
@@ -263,6 +334,23 @@
 
 	<jsp:include page="javascriptfile.jsp"></jsp:include>
 	<script type="text/javascript">
+	
+	function pesquisaCep(){
+		var cep = $("#cep").val();
+		
+		$.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+			
+			if (!("erro" in dados)){
+				$("#cep").val(dados.cep);
+				$("#logradouro").val(dados.logradouro);
+				$("#bairro").val(dados.bairro);
+				$("#cidade").val(dados.localidade);
+				$("#uf").val(dados.uf);
+				
+			}
+			
+		});
+	}
 	
 	function visualizarImg(fotoembase64, fileFoto){
 		

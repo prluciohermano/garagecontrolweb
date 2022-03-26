@@ -16,7 +16,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
 		<attributes>
 			<attribute name="module" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0">
@@ -24,18 +23,20 @@
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/eclipse-workspace/garagecontrolNew/src/main/webapp/WEB-INF/lib/mysql-connector-java-8.0.27.jar"/>
+	<classpathentry kind="lib" path="C:/diversos/JSF-CURSO/wildfly-26.0.1.Final/jboss-modules.jar"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/eclipse-workspace/garagecontrolNew/src/main/webapp/WEB-INF/lib/commons-io-2.11.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/eclipse-workspace/garagecontrolNew/src/main/webapp/WEB-INF/lib/commons-io-2.11.0-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/eclipse-workspace/garagecontrolNew/src/main/webapp/WEB-INF/lib/commons-io-2.11.0-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/eclipse-workspace/garagecontrolNew/src/main/webapp/WEB-INF/lib/commons-io-2.11.0-tests.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/eclipse-workspace/garagecontrolNew/src/main/webapp/WEB-INF/lib/commons-io-2.11.0-test-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/git/repository/garagecontrolNew/src/main/webapp/WEB-INF/lib/commons-io-2.11.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/git/repository/garagecontrolNew/src/main/webapp/WEB-INF/lib/commons-io-2.11.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/git/repository/garagecontrolNew/src/main/webapp/WEB-INF/lib/commons-io-2.11.0-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/git/repository/garagecontrolNew/src/main/webapp/WEB-INF/lib/commons-io-2.11.0-tests.jar"/>
+	<classpathentry kind="lib" path="C:/diversos/commons-email-1.5.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/Downloads/jakartaee-migration-1.0.0-src/jakartaee-migration-1.0.0"/>
+	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/Downloads/apache-tomee-9.0.0-M7-plume"/>
+	<classpathentry kind="lib" path="C:/Users/Pr Lúcio Hermano/git/repository/garagecontrolNew/src/main/webapp/WEB-INF/lib/mysql-connector-java-8.0.27.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
