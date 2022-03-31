@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.DAOLoginRepository;
-import dao.DAOUsuarioRepositary;
+import dao.DAOUsuarioRepository;
 import model.ModelLogin;
 import model.ModelUsuario;
 
@@ -22,7 +22,7 @@ public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private DAOLoginRepository daoLoginRepository = new DAOLoginRepository();
-	private DAOUsuarioRepositary daoUsuarioRepositary = new DAOUsuarioRepositary();
+	private DAOUsuarioRepository daoUsuarioRepositary = new DAOUsuarioRepository();
 
   
     public ServletLogin() {

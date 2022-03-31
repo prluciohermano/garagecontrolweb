@@ -10,11 +10,11 @@ import java.util.List;
 import connection.SingleConnectionBanco;
 import model.ModelUsuario;
 
-public class DAOUsuarioRepositary {
+public class DAOUsuarioRepository {
 
 	private Connection connection;
 
-	public DAOUsuarioRepositary() {
+	public DAOUsuarioRepository() {
 
 		connection = SingleConnectionBanco.getConnection();
 	}
@@ -180,6 +180,58 @@ public List<ModelUsuario> consultaUsuarioLista(Long userLogado) throws SQLExcept
 		return retorno;
 	}
 
+public int consultaUsuarioListTotalPaginaPaginacao(String nome, Long userLogado) throws SQLException{
+	
+	String sql = "SELECT COUNT(1) AS TOTAL FROM USERS WHERE UPPER(USE_NOME) LIKE UPPER(?) AND USE_ADMIN = '0' AND USUARIO_ID = ?;";
+	
+	PreparedStatement stm = connection.prepareStatement(sql);
+	stm.setString(1, "%" + nome + "%");
+	stm.setLong(2, userLogado);
+	
+	ResultSet rs = stm.executeQuery();
+	
+	rs.next();
+	
+	Double cadastros = rs.getDouble("total");
+	
+	Double porPagina = 5.0;
+	
+	Double pagina = cadastros / porPagina;
+	
+	Double resto = pagina % 2;
+	
+	if(resto > 0) {
+		pagina ++;
+	}
+	
+	return pagina.intValue();
+}
+
+public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado, String offset) throws SQLException{
+	
+	List<ModelUsuario> retorno = new ArrayList<ModelUsuario>();
+	
+	String sql = "SELECT * FROM USERS WHERE UPPER(USE_NOME) LIKE UPPER(?) AND USE_ADMIN = '0' AND USUARIO_ID = ? LIMIT 5 OFFSET " + offset + ";";
+	PreparedStatement stm = connection.prepareStatement(sql);
+	stm.setString(1, "%" + nome + "%");
+	stm.setLong(2, userLogado);
+	
+	ResultSet rs = stm.executeQuery();
+	
+	while (rs.next()) {
+		ModelUsuario modelUsuario = new ModelUsuario();
+		modelUsuario.setId(rs.getLong("USE_ID"));
+		modelUsuario.setNome(rs.getString("USE_NOME"));
+		modelUsuario.setEmail(rs.getString("USE_EMAIL"));
+		modelUsuario.setLogin(rs.getString("USE_LOGIN"));
+		modelUsuario.setUserAdmin(rs.getBoolean("USE_ADMIN"));
+		modelUsuario.setPerfil(rs.getString("USE_PERFIL"));
+		modelUsuario.setSexo(rs.getString("USE_SEXO"));
+		retorno.add(modelUsuario);
+	}
+	
+	return retorno;
+}
 	
 	public List<ModelUsuario> consultaUsuarioList(String nome, Long userLogado) throws SQLException{
 		
@@ -322,6 +374,44 @@ public List<ModelUsuario> consultaUsuarioLista(Long userLogado) throws SQLExcept
 		PreparedStatement stm = connection.prepareStatement(sql);
 		stm.setLong(1, Long.parseLong(id));
 		stm.setLong(2, userLogado);
+
+		ResultSet rs = stm.executeQuery();
+
+		while (rs.next()) { /* Se tem resultado */
+
+			modelUsuario.setId(rs.getLong("USE_ID"));
+			modelUsuario.setNome(rs.getString("USE_NOME"));
+			modelUsuario.setEmail(rs.getString("USE_EMAIL"));
+			modelUsuario.setLogin(rs.getString("USE_LOGIN"));
+			modelUsuario.setSenha(rs.getString("USE_SENHA"));
+			modelUsuario.setUserAdmin(rs.getBoolean("USE_ADMIN"));
+			modelUsuario.setPerfil(rs.getString("USE_PERFIL"));
+			modelUsuario.setSexo(rs.getString("USE_SEXO"));
+			modelUsuario.setFotoUser(rs.getString("USE_FOTOUSER"));
+			modelUsuario.setExtensaoFotoUser(rs.getString("USE_EXTFOTOUSER"));
+			
+			modelUsuario.setCpf(rs.getString("USE_CPF"));
+			modelUsuario.setCep(rs.getString("USE_CEP"));
+			modelUsuario.setLogradouro(rs.getString("USE_LOGRADOURO"));
+			modelUsuario.setNumero(rs.getString("USE_NUMERO"));
+			modelUsuario.setComplemento(rs.getString("USE_COMPLEMENTO"));
+			modelUsuario.setBairro(rs.getString("USE_BAIRRO"));
+			modelUsuario.setCidade(rs.getString("USE_CIDADE"));
+			modelUsuario.setUf(rs.getString("USE_UF"));
+		}
+
+		return modelUsuario;
+	}
+	
+	public ModelUsuario consultaUsuarioId(Long id) throws SQLException {
+
+		ModelUsuario modelUsuario = new ModelUsuario();
+
+		String sql = "SELECT * FROM USERS WHERE USE_ID = ?;";
+
+		PreparedStatement stm = connection.prepareStatement(sql);
+		stm.setLong(1, id);
+		
 
 		ResultSet rs = stm.executeQuery();
 
