@@ -1,7 +1,10 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -12,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-import org.primefaces.shaded.commons.io.IOUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -48,7 +51,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 						.consultaUsuarioLista(super.getUserLogado(request));
 				request.setAttribute("modelUsuarios", modelUsuarios);
 
-				request.setAttribute("msg", "Excluído com sucesso!");
+				request.setAttribute("msg", "Excluï¿½do com sucesso!");
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
 				request.getRequestDispatcher("/principal/usuario.jsp").forward(request, response);
 
@@ -99,7 +102,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 						.consultaUsuarioLista(super.getUserLogado(request));
 				request.setAttribute("modelUsuarios", modelUsuarios);
 
-				request.setAttribute("msg", "Usuário em edição");
+				request.setAttribute("msg", "Usuï¿½rio em ediï¿½ï¿½o");
 				request.setAttribute("modelUsuario", modelUsuario);
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
@@ -109,7 +112,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				List<ModelUsuario> modelUsuarios = daoUsuarioRepository
 						.consultaUsuarioLista(super.getUserLogado(request));
 
-				request.setAttribute("msg", "Usuários carregados");
+				request.setAttribute("msg", "Usuï¿½rios carregados");
 				request.setAttribute("modelUsuarios", modelUsuarios);
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
 				request.getRequestDispatcher("/principal/usuario.jsp").forward(request, response);
@@ -137,6 +140,26 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("modelUsuarios", modelUsuarios);
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
 				request.getRequestDispatcher("/principal/usuario.jsp").forward(request, response);
+				
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("imprimirRelatorioUser")) {
+				
+				String dataInicial = request.getParameter("dataInicial");
+				String dataFinal = request.getParameter("dataFinal");
+				
+				if (dataInicial == null || dataInicial.isEmpty() && dataFinal == null || dataFinal.isEmpty()) {
+					
+					request.setAttribute("listaUser", daoUsuarioRepository.consultaUsuarioListaRel(super.getUserLogado(request)));
+				} else {
+					
+					request.setAttribute("listaUser", daoUsuarioRepository
+							.consultaUsuarioListaRel(super.getUserLogado(request), dataInicial, dataFinal));
+				}
+				
+				
+				request.setAttribute("dataInicial", dataInicial);
+				request.setAttribute("dataFinal", dataFinal);				
+				request.getRequestDispatcher("/principal/reluser.jsp").forward(request, response);
+			
 
 			} else {
 				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioLista(super.getUserLogado(request));
@@ -158,7 +181,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			throws ServletException, IOException {
 
 		try {
-			String msg = "Operação realizada com sucesso!";
+			String msg = "Operaï¿½ï¿½o realizada com sucesso!";
 
 			String id = request.getParameter("id");
 			String nome = request.getParameter("nome");
@@ -176,6 +199,10 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String bairro = request.getParameter("bairro");
 			String cidade = request.getParameter("cidade");
 			String uf = request.getParameter("uf");
+			String dataNasc = request.getParameter("dataNasc");
+			String rendaMensal = request.getParameter("rendaMensal");
+			
+			rendaMensal = rendaMensal.split("\\ ")[1].replaceAll("\\.", "").replaceAll("\\,", ".");
 
 			ModelUsuario modelUsuario = new ModelUsuario();
 
@@ -195,7 +222,10 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelUsuario.setBairro(bairro);
 			modelUsuario.setCidade(cidade);
 			modelUsuario.setUf(uf);
-
+			modelUsuario.setDataNasc(Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataNasc))));
+			modelUsuario.setRendaMensal(Double.valueOf(rendaMensal));
+			
+			
 			if (ServletFileUpload.isMultipartContent(request)) {
 				Part part = request.getPart("fileFoto"); // Pega foto da tela
 
@@ -211,7 +241,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
 			if (daoUsuarioRepository.validarLogin(modelUsuario.getLogin()) && modelUsuario.getId() == null) {
 
-				msg = "Já existe usuário com o mesmo login, informe outro login";
+				msg = "Jï¿½ existe usuï¿½rio com o mesmo login, informe outro login";
 			} else {
 				if (modelUsuario.isNovo()) {
 					msg = "Gravado com sucesso!";
@@ -229,7 +259,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
 			request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 
-		} catch (SQLException e) {
+		} catch (SQLException | ParseException e) {
 			e.printStackTrace();
 			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
 			request.setAttribute("msg", e.getMessage());

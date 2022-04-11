@@ -1,22 +1,28 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import connection.SingleConnectionBanco;
+import model.ModelTelefone;
 import model.ModelUsuario;
 
 public class DAOUsuarioRepository {
 
 	private Connection connection;
-
+	
 	public DAOUsuarioRepository() {
 
 		connection = SingleConnectionBanco.getConnection();
+		
+		
 	}
 
 	public ModelUsuario gravarUsuario(ModelUsuario objeto, Long userLogado) throws SQLException {
@@ -24,8 +30,8 @@ public class DAOUsuarioRepository {
 		if (objeto.isNovo()) {
 
 			String sql = "INSERT INTO USERS(USE_NOME, USE_EMAIL, USE_LOGIN, USE_SENHA, USUARIO_ID, USE_PERFIL, USE_SEXO, "
-					+ "USE_CPF, USE_CEP, USE_LOGRADOURO, USE_NUMERO, USE_COMPLEMENTO, USE_BAIRRO, USE_CIDADE, USE_UF)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "USE_CPF, USE_CEP, USE_LOGRADOURO, USE_NUMERO, USE_COMPLEMENTO, USE_BAIRRO, USE_CIDADE, USE_UF, USE_DTNASC, USE_RENDA)"
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement stm = connection.prepareStatement(sql);
 
 			stm.setString(1, objeto.getNome());
@@ -44,6 +50,8 @@ public class DAOUsuarioRepository {
 			stm.setString(13, objeto.getBairro());
 			stm.setString(14, objeto.getCidade());
 			stm.setString(15, objeto.getUf());
+			stm.setDate(16, objeto.getDataNasc());
+			stm.setDouble(17, objeto.getRendaMensal());
 			
 			stm.execute();
 			connection.commit();
@@ -63,7 +71,7 @@ public class DAOUsuarioRepository {
 			
 			String sql = "UPDATE USERS SET USE_NOME = ?, USE_EMAIL = ?, USE_LOGIN = ?, USE_SENHA = ?, USE_PERFIL = ?, USE_SEXO = ?, "
 					+ "USE_CPF = ?, USE_CEP = ?, USE_LOGRADOURO = ?, USE_NUMERO = ?, USE_COMPLEMENTO = ?, USE_BAIRRO = ?, "
-					+ "USE_CIDADE = ?, USE_UF = ? WHERE USE_ID = " + objeto.getId() + ";";
+					+ "USE_CIDADE = ?, USE_UF = ?, USE_DTNASC = ?, USE_RENDA = ? WHERE USE_ID = " + objeto.getId() + ";";
 
 			PreparedStatement stmUp = connection.prepareStatement(sql);
 
@@ -82,6 +90,8 @@ public class DAOUsuarioRepository {
 			stmUp.setString(12, objeto.getBairro());
 			stmUp.setString(13, objeto.getCidade());
 			stmUp.setString(14, objeto.getUf());
+			stmUp.setDate(15, objeto.getDataNasc());
+			stmUp.setDouble(16, objeto.getRendaMensal());
 
 			stmUp.executeUpdate();
 			connection.commit();
@@ -288,6 +298,8 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 			modelUsuario.setBairro(rs.getString("USE_BAIRRO"));
 			modelUsuario.setCidade(rs.getString("USE_CIDADE"));
 			modelUsuario.setUf(rs.getString("USE_UF"));
+			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
+			modelUsuario.setRendaMensal(rs.getDouble("USE_RENDA"));
 		}
 
 		return modelUsuario;
@@ -324,6 +336,8 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 			modelUsuario.setBairro(rs.getString("USE_BAIRRO"));
 			modelUsuario.setCidade(rs.getString("USE_CIDADE"));
 			modelUsuario.setUf(rs.getString("USE_UF"));
+			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
+			modelUsuario.setRendaMensal(rs.getDouble("USE_RENDA"));
 		}
 
 		return modelUsuario;
@@ -360,6 +374,8 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 			modelUsuario.setBairro(rs.getString("USE_BAIRRO"));
 			modelUsuario.setCidade(rs.getString("USE_CIDADE"));
 			modelUsuario.setUf(rs.getString("USE_UF"));
+			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
+			modelUsuario.setRendaMensal(rs.getDouble("USE_RENDA"));
 		}
 
 		return modelUsuario;
@@ -398,6 +414,9 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 			modelUsuario.setBairro(rs.getString("USE_BAIRRO"));
 			modelUsuario.setCidade(rs.getString("USE_CIDADE"));
 			modelUsuario.setUf(rs.getString("USE_UF"));
+			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
+			modelUsuario.setRendaMensal(rs.getDouble("USE_RENDA"));
+			
 		}
 
 		return modelUsuario;
@@ -436,9 +455,40 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 			modelUsuario.setBairro(rs.getString("USE_BAIRRO"));
 			modelUsuario.setCidade(rs.getString("USE_CIDADE"));
 			modelUsuario.setUf(rs.getString("USE_UF"));
+			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
+			modelUsuario.setRendaMensal(rs.getDouble("USE_RENDA"));
 		}
 
 		return modelUsuario;
+	}
+	
+public List<ModelUsuario> consultaUsuarioListaRel(Long userLogado) throws SQLException{
+		
+		List<ModelUsuario> retorno = new ArrayList<ModelUsuario>();
+		
+		String sql = "SELECT * FROM USERS WHERE USE_ADMIN = '0' AND USUARIO_ID = " + userLogado 
+						+ " ORDER BY USE_NOME";
+		
+		PreparedStatement stm = connection.prepareStatement(sql);
+		
+		ResultSet rs = stm.executeQuery();
+		
+		while (rs.next()) {
+			ModelUsuario modelUsuario = new ModelUsuario();
+			modelUsuario.setId(rs.getLong("USE_ID"));
+			modelUsuario.setNome(rs.getString("USE_NOME"));
+			modelUsuario.setEmail(rs.getString("USE_EMAIL"));
+			modelUsuario.setPerfil(rs.getString("USE_PERFIL"));
+			modelUsuario.setLogin(rs.getString("USE_LOGIN"));
+			modelUsuario.setUserAdmin(rs.getBoolean("USE_ADMIN"));
+			modelUsuario.setSexo(rs.getString("USE_SEXO"));
+			
+			modelUsuario.setTelefones(this.listFone(modelUsuario.getId()));
+			
+			retorno.add(modelUsuario);
+		}
+		
+		return retorno;
 	}
 
 	public boolean validarLogin(String login) throws SQLException {
@@ -464,5 +514,61 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 		stm.executeUpdate();
 		connection.commit();
 	}
+	
+public List<ModelTelefone> listFone(Long idUserPai) throws SQLException{
+		
+		List<ModelTelefone> retorno = new ArrayList<ModelTelefone>();
+		
+		String sql = "SELECT * FROM TELEFONE WHERE USER_PAI_ID = ?";
+		PreparedStatement stm = connection.prepareStatement(sql);
+		
+		stm.setLong(1, idUserPai);
+		
+		ResultSet rs = stm.executeQuery();
+		
+		while (rs.next()) {
+			
+			ModelTelefone modelTelefone = new ModelTelefone();
+			
+			modelTelefone.setTel_id(rs.getLong("TEL_ID"));
+			modelTelefone.setTel_num(rs.getString("TEL_NUM"));
+			modelTelefone.setUser_cad_id(this.consultaUsuarioId(rs.getLong("USER_CAD_ID")));
+			modelTelefone.setUser_pai_id(this.consultaUsuarioId(rs.getLong("USER_PAI_ID")));
+			
+			retorno.add(modelTelefone);
+		}
+		
+		return retorno;
+	}
 
+	public List<ModelUsuario> consultaUsuarioListaRel(Long userLogado, String dataInicial, String dataFinal) throws SQLException, ParseException{
+		
+		List<ModelUsuario> retorno = new ArrayList<ModelUsuario>();
+		
+		String sql = "SELECT * FROM USERS WHERE USE_ADMIN = '0' AND USUARIO_ID = " + userLogado + " AND USE_DTNASC >= ? AND USE_DTNASC <= ?"
+						+ " ORDER BY USE_DTNASC";
+		
+		PreparedStatement stm = connection.prepareStatement(sql);
+		stm.setDate(1, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataInicial))));
+		stm.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataFinal))));
+		
+		ResultSet rs = stm.executeQuery();
+		
+		while (rs.next()) {
+			ModelUsuario modelUsuario = new ModelUsuario();
+			modelUsuario.setId(rs.getLong("USE_ID"));
+			modelUsuario.setNome(rs.getString("USE_NOME"));
+			modelUsuario.setEmail(rs.getString("USE_EMAIL"));
+			modelUsuario.setPerfil(rs.getString("USE_PERFIL"));
+			modelUsuario.setLogin(rs.getString("USE_LOGIN"));
+			modelUsuario.setUserAdmin(rs.getBoolean("USE_ADMIN"));
+			modelUsuario.setSexo(rs.getString("USE_SEXO"));
+			
+			modelUsuario.setTelefones(this.listFone(modelUsuario.getId()));
+			
+			retorno.add(modelUsuario);
+		}
+		
+		return retorno;
+	}
 }

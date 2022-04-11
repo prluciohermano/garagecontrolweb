@@ -30,7 +30,7 @@ public class DAOTelefoneRepository {
 		stm.setLong(3, modelTelefone.getUser_cad_id().getId());
 		
 		stm.execute();
-		stm.getConnection().commit();
+		connection.commit();
 		
 	}
 
@@ -70,6 +70,23 @@ public class DAOTelefoneRepository {
 		
 		
 		return retorno;
+		
+	}
+	
+	public boolean existeFone(String fone, Long idUser) throws SQLException {
+		
+		String sql = "SELECT COUNT(1) > 0 FROM TELEFONE WHERE USER_PAI_ID = ? AND TEL_NUM = ? ";
+		
+		PreparedStatement stm = connection.prepareStatement(sql);
+		
+		stm.setLong(1, idUser);
+		stm.setString(2, fone);
+		
+		ResultSet rs = stm.executeQuery();
+		
+		rs.next();
+		
+		return rs.getBoolean("existe");
 		
 	}
 }

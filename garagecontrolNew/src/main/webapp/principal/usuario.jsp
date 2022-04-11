@@ -1,8 +1,11 @@
-<%@page import="model.ModelUsuario"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="model.ModelUsuario"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -81,49 +84,28 @@
 																	value="${modelUsuario.nome }"> <span
 																	class="form-bar"></span> <label class="float-label">Nome:</label>
 															</div>
+															
+															<div class="form-group form-default">
+																<input type="text" name="dataNasc" id="dataNasc"
+																	class="form-control" required=" "
+																	value="${modelUsuario.dataNasc }"> <span
+																	class="form-bar"></span> <label class="float-label">Data Nascimento:</label>
+															</div>
+															
+															<div class="form-group form-default">
+																<input type="text" name="rendaMensal" id="rendaMensal"
+																	class="form-control" required=""
+																	value="${modelUsuario.rendaMensal }"> <span
+																	class="form-bar"></span> <label class="float-label">Renda Mensal:</label>
+															</div>
+															
 															<div class="form-group form-default">
 																<input type="email" name="email" id="email"
 																	class="form-control" required="" autocomplete="off"
 																	value="${modelUsuario.email }">
 																	<span class="form-bar"></span> <label class="float-label">E-mail:</label>
 															</div>
-														<div class="form-group form-default">
-															<select class="form-control"
-																aria-label="Default select example" name="perfil">
-															  <option disabled="disabled">[Selecione o Perfil]</option>
-															  <option value="ADMIN" <%
-															  
-															  ModelUsuario modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
-															  
-															  if (modelUsuario != null && modelUsuario.getPerfil().equals("ADMIN")){
-																  out.print(" ");
-																  	out.print("selected=\"selected\"");
-																  out.print(" ");
-															  } %>>Admin</option>
-															  
-															  
-															  <option value="GERENCIA" <%
-															  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
-															  
-															  if (modelUsuario != null && modelUsuario.getPerfil().equals("GERENCIA")){
-																  out.print(" ");
-																  	out.print("selected=\"selected\"");
-																  out.print(" ");
-															  } %>>Gerência</option>
-															  
-															  
-															  <option value="USUARIO" <%
-															  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
-															  
-															  if (modelUsuario != null && modelUsuario.getPerfil().equals("USUARIO")){
-																  out.print(" ");
-																  	out.print("selected=\"selected\"");
-																  out.print(" ");
-															  } %>>Usuário</option>
-															</select>
-																	<span class="form-bar"></span>
-																	<label class="float-label">Perfil:</label>
-															</div>
+													
 														<div class="form-group form-default">
 															    <input type="text" name="cpf" id="cpf"
 																class="form-control" required="" autocomplete="off"
@@ -172,7 +154,46 @@
 																value="${modelUsuario.uf }"> <span
 																class="form-bar"></span> <label class="float-label">UF:</label>
 														</div>
-								<% /*================================================================================================*/ %>												
+								<% /*================================================================================================*/ %>	
+								
+																<div class="form-group form-default">
+															<select class="form-control"
+																aria-label="Default select example" name="perfil">
+															  <option disabled="disabled">[Selecione o Perfil]"</option>
+															  
+															  <option value="ADMIN" <%															  
+															  ModelUsuario modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+															  
+															  if (modelUsuario != null && modelUsuario.getPerfil().equals("ADMIN")){
+																  out.print(" ");
+																  	out.print("selected=\"selected\"");
+																  out.print(" ");
+															  } %>>Admin</option>
+															  
+															  
+															  <option value="GERENCIA" <%
+															  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+															  
+															  if (modelUsuario != null && modelUsuario.getPerfil().equals("GERENCIA")){
+																  out.print(" ");
+																  	out.print("selected=\"selected\"");
+																  out.print(" ");
+															  } %>>Gerência</option>
+															  
+															  
+															  <option value="USUARIO" <%
+															  modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
+															  
+															  if (modelUsuario != null && modelUsuario.getPerfil().equals("USUARIO")){
+																  out.print(" ");
+																  	out.print("selected=\"selected\"");
+																  out.print(" ");
+															  } %>>Usuário</option>
+															</select>
+																	<span class="form-bar"></span>
+																	<label class="float-label">Perfil:</label>
+															</div>
+																										
 															<div class="form-group form-default">
 																<input type="text" name="login" id="login"
 																	class="form-control" required="" autocomplete="off"
@@ -191,7 +212,7 @@
 																<%
 																modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
 																
-																 if (modelUsuario != null && modelUsuario.getPerfil().equals("MASCULINO")){
+																 if (modelUsuario != null && modelUsuario.getSexo().equals("MASCULINO")){
 																	  out.print(" ");
 																	  	out.print("checked=\"checked\"");
 																	  out.print(" ");
@@ -203,7 +224,7 @@
 																<%
 																modelUsuario = (ModelUsuario) request.getAttribute("modelUsuario");
 																
-																 if (modelUsuario != null && modelUsuario.getPerfil().equals("FEMININO")){
+																 if (modelUsuario != null && modelUsuario.getSexo().equals("FEMININO")){
 																	  out.print(" ");
 																	  	out.print("checked=\"checked\"");
 																	  out.print(" ");
@@ -343,6 +364,48 @@
 
 	<jsp:include page="javascriptfile.jsp"></jsp:include>
 	<script type="text/javascript">
+	
+	$("#rendaMensal").maskMoney({showSymbol:true, symbol:"R$ ", decimal:",", thousands:"."});
+
+		const formatter = new Intl.NumberFormat('pt-BR', {
+		    currency : 'BRL',
+		    minimumFractionDigits : 2
+		});
+	
+		$("#rendaMensal").val(formatter.format($("#rendaMensal").val()));
+	
+		$("#rendaMensal").focus();
+	
+		var dataNasc = $("#dataNasc").val();
+	
+		var dateFormat = new Date(dataNasc);
+	
+		$("#dataNasc").val(dateFormat.toLocaleDateString('pt-BR',{timeZone: 'UTC-8'}));
+	
+		$("#nome").focus();
+		
+		$( function() {
+		  
+		  $("#dataNasc").datepicker({
+			    dateFormat: 'dd/mm/yy',
+			    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+			    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+			    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+			    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+			    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+			    nextText: 'Próximo',
+			    prevText: 'Anterior'
+			});
+	} );
+	
+	
+		$("#numero").keypress(function (event) {
+			return /\d/.test(String.fromCharCode(event.keyCode));
+		});
+	
+		$("#cep").keypress(function (event) {
+			return /\d/.test(String.fromCharCode(event.keyCode));
+		});
 	
 	function pesquisaCep(){
 		var cep = $("#cep").val();
