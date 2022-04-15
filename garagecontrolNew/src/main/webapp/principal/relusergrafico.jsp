@@ -65,20 +65,17 @@
 														      <button type="button" onclick="gerarGrafico();" class="btn btn-primary mb-2">Gerar Gráfico</button>
 														     </div>
 														  </div>
-														
-														
 														</form>
-															<div style="height: 800px; width: 100%; overflow: scroll">
-																<div>
-																	<canvas id="myChart"></canvas>
-																</div>
-
+													<div style="height: 800px; width: 100%; overflow: scroll">
+														<div>
+														   <canvas id="myChart"></canvas>
+														</div>
 													</div>
-                            				</div>
-                             			</div>
+                            				    </div>
+                             			    </div>
                                    		 </div>
                                     <!-- Page-body end -->
-                                </div>
+                                  </div>
                                 <div id="styleSelector"> </div>
                             </div>
                         </div>

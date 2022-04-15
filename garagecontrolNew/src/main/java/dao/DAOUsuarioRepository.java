@@ -539,7 +539,7 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 	
 public List<ModelUsuario> consultaUsuarioListaRel(Long userLogado) throws SQLException{
 		
-		List<ModelUsuario> retorno = new ArrayList<ModelUsuario>();
+		List<ModelUsuario> retorno2 = new ArrayList<ModelUsuario>();
 		
 		String sql = "SELECT * FROM USERS WHERE USE_ADMIN = '0' AND USUARIO_ID = " + userLogado 
 						+ " ORDER BY USE_NOME";
@@ -549,7 +549,9 @@ public List<ModelUsuario> consultaUsuarioListaRel(Long userLogado) throws SQLExc
 		ResultSet rs = stm.executeQuery();
 		
 		while (rs.next()) {
+			
 			ModelUsuario modelUsuario = new ModelUsuario();
+			
 			modelUsuario.setId(rs.getLong("USE_ID"));
 			modelUsuario.setNome(rs.getString("USE_NOME"));
 			modelUsuario.setEmail(rs.getString("USE_EMAIL"));
@@ -562,10 +564,10 @@ public List<ModelUsuario> consultaUsuarioListaRel(Long userLogado) throws SQLExc
 			
 			modelUsuario.setTelefones(this.listFone(modelUsuario.getId()));
 			
-			retorno.add(modelUsuario);
+			retorno2.add(modelUsuario);
 		}
 		
-		return retorno;
+		return retorno2;
 	}
 
 	public boolean validarLogin(String login) throws SQLException {
