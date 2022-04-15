@@ -43,7 +43,7 @@
 												<!-- Basic Form Inputs card start -->
 												<div class="card">
 													<div class="card-block">
-														<h4 class="sub-title">Relatório de Usuário</h4>
+														<h4 class="sub-title">Gráfico de Média Salarial por Perfil</h4>
 														<form class="form-material" 
 															action="<%=request.getContextPath()%>/ServletUsuarioController"
 															method="get" id="formUser">
@@ -52,49 +52,28 @@
 														  <div class="form-row align-items-center">
 														    <div class="col-auto">
 														      <label class="sr-only" for="dataInicial">Data Inicial</label>
-														      <input value="${dataInicial }" type="text" class="form-control mb-2" placeholder="Data Inicial" id="dataInicial" name="dataInicial">
+														      <input value="${dataInicial }" type="text" class="form-control mb-2" id="dataInicial" name="dataInicial">
 														    </div>
 														    <div class="col-auto">
 														      <label class="sr-only" for="dataFinal">Data Final</label>
 														      <div class="input-group mb-2">
-														        <input value="${dataFinal }" type="text" class="form-control" placeholder="Data Final" id="dataFinal" name="dataFinal">
+														        <input value="${dataFinal }" type="text" class="form-control" id="dataFinal" name="dataFinal">
 														      </div>
 														    </div>
 														   
 														    <div class="col-auto">
-														      <button type="button" onclick="imprimirHtml();" class="btn btn-primary mb-2">Imprimir Relatório</button>
-														      <button type="button" onclick="imprimirPdf();" class="btn btn-primary mb-2">Imprimir PDF</button>
-														    </div>
+														      <button type="button" onclick="gerarGrafico();" class="btn btn-primary mb-2">Gerar Gráfico</button>
+														     </div>
 														  </div>
 														
 														
 														</form>
-															<div style="height: 300px; width: 100%; overflow: scroll">
-															<table class="table" id="tabelaUsuarioView">
-																<thead>
-														<tr>
-															<th scope="col">ID</th>
-															<th scope="col">Nome</th>
-														</tr>
-													</thead>
-													<tbody>
-														<c:forEach items="${listaUser }" var='ml'>
-															<tr>
-																<td><c:out value="${ml.id }"></c:out></td>
-																<td><c:out value="${ml.nome }"></c:out></td>
-															</tr>
-														
-																<c:forEach items="${ml.telefones}" var="fone">
-																<tr>
-																<td/>
-																<td style="font-size: 14px; font-weight: bold;"><c:out value="${fone.tel_num}"></c:out></td>
-																</tr>
-															</c:forEach>
-														
-														</c:forEach>
-													</tbody>
-												</table>
-												</div>
+															<div style="height: 800px; width: 100%; overflow: scroll">
+																<div>
+																	<canvas id="myChart"></canvas>
+																</div>
+
+													</div>
                             				</div>
                              			</div>
                                    		 </div>
@@ -112,17 +91,57 @@
    
 <jsp:include page="javascriptfile.jsp"></jsp:include>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script type="text/javascript">
 
-function imprimirHtml(){
-	document.getElementById("acaoRelatorioImprimirTipo").value='imprimirRelatorioUser';
-	$("#formUser").submit();
+var myChart = new Chart(document.getElementById('myChart'));
+
+function gerarGrafico(){
+	
+	var urlAction = document.getElementById('formUser').action;
+	var dataInicial = document.getElementById('dataInicial').value;
+	var dataFinal = document.getElementById('dataFinal').value;
+	
+	$.ajax({
+
+		method : "get",
+		url : urlAction,
+		data : "dataInicial=" + dataInicial + '&dataFinal=' + dataFinal + '&acao=graficoSalario',
+		success : function(response) {
+
+			var json = JSON.parse(response);
+			
+			myChart.destroy();
+					
+			myChart = new Chart(
+					  document.getElementById('myChart'),
+					  {
+						    type: 'line',
+						    data: {
+						        labels: json.perfils,
+						        datasets: [{
+						          label: 'Gráfico de Média Salarial por Tipo',
+						          backgroundColor: 'rgb(255, 99, 132)',
+						          borderColor: 'rgb(255, 99, 132)',
+						          data: json.salarios,
+						        }]
+						      },
+						    options: {}
+						  }
+					);
+			}
+
+	}).fail(
+			function(xhr, status, errorThrown) {
+				alert('Erro ao buscar dados para o gráfico: '
+						+ xhr.responseText);
+			});
+	
+	
+	
 }
 
-function imprimirPdf(){
-	document.getElementById("acaoRelatorioImprimirTipo").value='imprimirRelatorioPDF';
-	$("#formUser").submit();
-}
 
 $( function() {
 	  

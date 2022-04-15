@@ -377,10 +377,14 @@
 		$("#rendaMensal").focus();
 	
 		var dataNasc = $("#dataNasc").val();
-	
-		var dateFormat = new Date(dataNasc);
-	
-		$("#dataNasc").val(dateFormat.toLocaleDateString('pt-BR',{timeZone: 'UTC-8'}));
+		
+		if (dataNasc != null && dataNasc =! ''){
+			
+			var dateFormat = new Date(dataNasc);
+			
+			$("#dataNasc").val(dateFormat.toLocaleDateString('pt-BR',{timeZone: 'UTC-8'}));
+			
+		}
 	
 		$("#nome").focus();
 		

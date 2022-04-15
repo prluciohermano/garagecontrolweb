@@ -1,10 +1,12 @@
 package servlets;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -21,8 +23,10 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beandto.BeanDtoGraficoSalarioUser;
 import dao.DAOUsuarioRepository;
 import model.ModelUsuario;
+import util.reportUtil;
 
 @MultipartConfig
 @WebServlet(urlPatterns = { "/ServletUsuarioController" })
@@ -51,7 +55,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 						.consultaUsuarioLista(super.getUserLogado(request));
 				request.setAttribute("modelUsuarios", modelUsuarios);
 
-				request.setAttribute("msg", "Exclu�do com sucesso!");
+				request.setAttribute("msg", "Excluído com sucesso!");
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
 				request.getRequestDispatcher("/principal/usuario.jsp").forward(request, response);
 
@@ -160,8 +164,64 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("dataFinal", dataFinal);				
 				request.getRequestDispatcher("/principal/reluser.jsp").forward(request, response);
 			
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("imprimirRelatorioPDF")) {
+				
+				String dataInicial = request.getParameter("dataInicial");
+				String dataFinal = request.getParameter("dataFinal");
+				
+				List<ModelUsuario> modelUsuarios = null;
+				
+				if (dataInicial == null || dataInicial.isEmpty() && dataFinal == null || dataFinal.isEmpty()) {
+					
+					modelUsuarios = daoUsuarioRepository.consultaUsuarioListaRel(super.getUserLogado(request));
+				
+				} else {
+					
+					modelUsuarios = daoUsuarioRepository.consultaUsuarioListaRel(super.getUserLogado(request), dataInicial, dataFinal);
+					
+				}
+				
+				HashMap<String, Object> params = new HashMap<String, Object>();
+				params.put("PARAM_SUB_REPORT", request.getServletContext().getRealPath("relatorio") + File.separator);
+				
+				byte[] relatorio = new reportUtil().geraRelatorioPDF(modelUsuarios, "rel-user-jsp", params, request.getServletContext());
+				
+				response.setHeader("Content-Disposition", "attachment;filename=arquivo.pdf");
+				response.getOutputStream().write(relatorio);
+				
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("graficoSalario")) {
+				
+				String dataInicial = request.getParameter("dataInicial");
+				String dataFinal = request.getParameter("dataFinal");
+								
+				if (dataInicial == null || dataInicial.isEmpty() 
+						&& dataFinal == null || dataFinal.isEmpty()) {
+					
+					BeanDtoGraficoSalarioUser beanDtoGraficoSalarioUser = daoUsuarioRepository.
+							montarGraficoMediaSalario(super.getUserLogado(request));
+					
+						ObjectMapper mapper = new ObjectMapper();
+						
+						String json = mapper.writeValueAsString(beanDtoGraficoSalarioUser);
+						
+						response.getWriter().write(json);
+				
+				} else {
+					
+					BeanDtoGraficoSalarioUser beanDtoGraficoSalarioUser = daoUsuarioRepository.
+							montarGraficoMediaSalario(super.getUserLogado(request), dataInicial, dataFinal);
+					
+						ObjectMapper mapper = new ObjectMapper();
+						
+						String json = mapper.writeValueAsString(beanDtoGraficoSalarioUser);
+						
+						response.getWriter().write(json);
+					
+					}
+					
+				}
 
-			} else {
+			else {
 				List<ModelUsuario> modelUsuarios = daoUsuarioRepository.consultaUsuarioLista(super.getUserLogado(request));
 				request.setAttribute("modelUsuarios", modelUsuarios);
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
@@ -181,7 +241,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			throws ServletException, IOException {
 
 		try {
-			String msg = "Opera��o realizada com sucesso!";
+			String msg = "Operação realizada com sucesso!";
 
 			String id = request.getParameter("id");
 			String nome = request.getParameter("nome");

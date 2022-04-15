@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import beandto.BeanDtoGraficoSalarioUser;
 import connection.SingleConnectionBanco;
 import model.ModelTelefone;
 import model.ModelUsuario;
@@ -22,7 +23,68 @@ public class DAOUsuarioRepository {
 
 		connection = SingleConnectionBanco.getConnection();
 		
+	}
+	
+public BeanDtoGraficoSalarioUser montarGraficoMediaSalario(Long userLogado, String dataInicial, String dataFinal) throws SQLException, ParseException {
 		
+	String sql = "SELECT AVG(USE_RENDA) AS media_salarial, USE_PERFIL FROM USERS WHERE USUARIO_ID = ? AND USE_DTNASC >= ? AND USE_DTNASC <= ? GROUP BY USE_PERFIL";
+	
+	PreparedStatement stm = connection.prepareStatement(sql);
+	
+	stm.setLong(1, userLogado);
+	stm.setDate(2, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataInicial))));
+	stm.setDate(3, Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataFinal))));
+	
+	ResultSet rs = stm.executeQuery();
+	
+	List<String> perfils = new ArrayList<String>();
+	List<Double> salarios = new ArrayList<Double>();
+	
+	BeanDtoGraficoSalarioUser beanDtoGraficoSalarioUser = new BeanDtoGraficoSalarioUser();
+			
+	while (rs.next()) {
+		Double media_salarial = rs.getDouble("media_salarial");
+		String perfil = rs.getString("USE_PERFIL");
+		
+		perfils.add(perfil);
+		salarios.add(media_salarial);
+			
+		}
+		
+		beanDtoGraficoSalarioUser.setPerfils(perfils);
+		beanDtoGraficoSalarioUser.setSalarios(salarios);
+		
+		return beanDtoGraficoSalarioUser;
+	}
+	
+	public BeanDtoGraficoSalarioUser montarGraficoMediaSalario(Long userLogado) throws Exception {
+		
+		String sql = "SELECT AVG(USE_RENDA) AS media_salarial, USE_PERFIL from USERS WHERE USUARIO_ID = ? GROUP BY USE_PERFIL";
+		
+		PreparedStatement stm = connection.prepareStatement(sql);
+		
+		stm.setLong(1, userLogado);
+		
+		ResultSet rs = stm.executeQuery();
+		
+		List<String> perfils = new ArrayList<String>();
+		List<Double> salarios = new ArrayList<Double>();
+		
+		BeanDtoGraficoSalarioUser beanDtoGraficoSalarioUser = new BeanDtoGraficoSalarioUser();
+				
+		while (rs.next()) {
+			Double media_salarial = rs.getDouble("media_salarial");
+			String perfil = rs.getString("USE_PERFIL");
+			
+			perfils.add(perfil);
+			salarios.add(media_salarial);
+			
+		}
+		
+		beanDtoGraficoSalarioUser.setPerfils(perfils);
+		beanDtoGraficoSalarioUser.setSalarios(salarios);
+		
+		return beanDtoGraficoSalarioUser;
 	}
 
 	public ModelUsuario gravarUsuario(ModelUsuario objeto, Long userLogado) throws SQLException {
@@ -131,6 +193,8 @@ public List<ModelUsuario> consultaUsuarioListPaginada(Long userLogado, Integer o
 			modelUsuario.setLogin(rs.getString("USE_LOGIN"));
 			modelUsuario.setUserAdmin(rs.getBoolean("USE_ADMIN"));
 			modelUsuario.setSexo(rs.getString("USE_SEXO"));
+			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
+			modelUsuario.setCidade(rs.getString("USE_CIDADE"));
 			
 			retorno.add(modelUsuario);
 		}
@@ -183,6 +247,8 @@ public List<ModelUsuario> consultaUsuarioLista(Long userLogado) throws SQLExcept
 			modelUsuario.setLogin(rs.getString("USE_LOGIN"));
 			modelUsuario.setUserAdmin(rs.getBoolean("USE_ADMIN"));
 			modelUsuario.setSexo(rs.getString("USE_SEXO"));
+			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
+			modelUsuario.setCidade(rs.getString("USE_CIDADE"));
 			
 			retorno.add(modelUsuario);
 		}
@@ -237,6 +303,8 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 		modelUsuario.setUserAdmin(rs.getBoolean("USE_ADMIN"));
 		modelUsuario.setPerfil(rs.getString("USE_PERFIL"));
 		modelUsuario.setSexo(rs.getString("USE_SEXO"));
+		modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
+		modelUsuario.setCidade(rs.getString("USE_CIDADE"));
 		retorno.add(modelUsuario);
 	}
 	
@@ -263,6 +331,8 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 			modelUsuario.setUserAdmin(rs.getBoolean("USE_ADMIN"));
 			modelUsuario.setPerfil(rs.getString("USE_PERFIL"));
 			modelUsuario.setSexo(rs.getString("USE_SEXO"));
+			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
+			modelUsuario.setCidade(rs.getString("USE_CIDADE"));
 			retorno.add(modelUsuario);
 		}
 		
@@ -300,6 +370,7 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 			modelUsuario.setUf(rs.getString("USE_UF"));
 			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
 			modelUsuario.setRendaMensal(rs.getDouble("USE_RENDA"));
+			
 		}
 
 		return modelUsuario;
@@ -338,6 +409,7 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 			modelUsuario.setUf(rs.getString("USE_UF"));
 			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
 			modelUsuario.setRendaMensal(rs.getDouble("USE_RENDA"));
+			
 		}
 
 		return modelUsuario;
@@ -376,6 +448,7 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 			modelUsuario.setUf(rs.getString("USE_UF"));
 			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
 			modelUsuario.setRendaMensal(rs.getDouble("USE_RENDA"));
+			
 		}
 
 		return modelUsuario;
@@ -417,6 +490,7 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
 			modelUsuario.setRendaMensal(rs.getDouble("USE_RENDA"));
 			
+			
 		}
 
 		return modelUsuario;
@@ -457,6 +531,7 @@ public List<ModelUsuario> consultaUsuarioListOffSet(String nome, Long userLogado
 			modelUsuario.setUf(rs.getString("USE_UF"));
 			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
 			modelUsuario.setRendaMensal(rs.getDouble("USE_RENDA"));
+			
 		}
 
 		return modelUsuario;
@@ -482,6 +557,8 @@ public List<ModelUsuario> consultaUsuarioListaRel(Long userLogado) throws SQLExc
 			modelUsuario.setLogin(rs.getString("USE_LOGIN"));
 			modelUsuario.setUserAdmin(rs.getBoolean("USE_ADMIN"));
 			modelUsuario.setSexo(rs.getString("USE_SEXO"));
+			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
+			modelUsuario.setCidade(rs.getString("USE_CIDADE"));
 			
 			modelUsuario.setTelefones(this.listFone(modelUsuario.getId()));
 			
@@ -563,6 +640,8 @@ public List<ModelTelefone> listFone(Long idUserPai) throws SQLException{
 			modelUsuario.setLogin(rs.getString("USE_LOGIN"));
 			modelUsuario.setUserAdmin(rs.getBoolean("USE_ADMIN"));
 			modelUsuario.setSexo(rs.getString("USE_SEXO"));
+			modelUsuario.setDataNasc(rs.getDate("USE_DTNASC"));
+			modelUsuario.setCidade(rs.getString("USE_CIDADE"));
 			
 			modelUsuario.setTelefones(this.listFone(modelUsuario.getId()));
 			
@@ -571,4 +650,6 @@ public List<ModelTelefone> listFone(Long idUserPai) throws SQLException{
 		
 		return retorno;
 	}
+
+	
 }
